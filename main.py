@@ -1,5 +1,7 @@
 import pygame
 from constants import *
+from App import *
+from Player import *
 
 
 def main():
@@ -11,6 +13,10 @@ def main():
 
     # Change the title of the window
     pygame.display.set_caption('RollColor')
+
+    global display_screen
+    display_screen = App(screen)
+    ball = Player(screen)
 
     clock = pygame.time.Clock()
 
