@@ -6,3 +6,6 @@ Y_POS_START = 550
 BALL_WIDTH = 50
 BALL_HEIGHT = 50
 BALL_PATH = "./images/ball.jpg"
+BLOCK_PATH = "./images/red block.png"
+BLOCK_WIDTH = 20
+BLOCK_HEIGHT = 250

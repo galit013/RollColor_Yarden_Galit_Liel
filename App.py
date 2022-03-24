@@ -15,6 +15,9 @@ class App:
         img = pygame.image.load(BALL_PATH)
         img = pygame.transform.scale(img, (BALL_WIDTH, BALL_HEIGHT))
         screen.blit(img, (X_POS_START,Y_POS_START))
+        img = pygame.image.load(BLOCK_PATH)
+        img = pygame.transform.scale(img, (BLOCK_WIDTH, BLOCK_HEIGHT))
+        screen.blit(img, (0,0))
 
     def game_screen(self):
         pass

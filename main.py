@@ -2,6 +2,7 @@ import pygame
 from constants import *
 from App import *
 from Player import *
+from Block import*
 
 
 def main():
@@ -17,6 +18,7 @@ def main():
     global display_screen
     display_screen = App(screen)
     ball = Player(screen)
+    block = Block(screen)
 
     clock = pygame.time.Clock()
 
