@@ -1,16 +1,40 @@
-# This is a sample Python script.
-
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+import pygame
+from constants import *
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
+def main():
+    # Set up the game display, clock and headline
+    pygame.init()
+    # Create the screen and show it
+    screen_size = (WINDOW_WIDTH, WINDOW_HEIGHT)
+    screen = pygame.display.set_mode(screen_size)
+
+    # Change the title of the window
+    pygame.display.set_caption('RollColor')
+
+    clock = pygame.time.Clock()
+
+    # Display all drawings we have defined
+    pygame.display.flip()
 
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+    running = True
+    while running:
+        # Grabs events such as key pressed, mouse pressed and so.
+        # Going through all the events that happened in the last clock tick
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            # checks if the user pressed the mouse button
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_click_pos = event.pos  # the mouse position
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+
+        # Set the clock tick to be 60 times per second. 60 frames for second.
+        # If we want faster game - increase the parameter.
+        clock.tick(60)
+    pygame.quit()
+    quit()
+
+
+main()
