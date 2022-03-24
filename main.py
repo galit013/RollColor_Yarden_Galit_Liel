@@ -15,9 +15,12 @@ def main():
     # Change the title of the window
     pygame.display.set_caption('RollColor')
 
+    ball = Player(screen)
     global display_screen
     display_screen = App(screen)
-    ball = Player(screen)
+    ball_img = ball.get_player()
+    screen.blit(ball_img, (ball.x_pos, ball.y_pos))
+
     block = Block(screen)
 
     clock = pygame.time.Clock()
@@ -27,6 +30,7 @@ def main():
 
 
     running = True
+    loaded = False
     while running:
         # Grabs events such as key pressed, mouse pressed and so.
         # Going through all the events that happened in the last clock tick
@@ -35,7 +39,21 @@ def main():
                 running = False
             # checks if the user pressed the mouse button
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_click_pos = event.pos  # the mouse position
+                print(1)
+                loaded = True
+
+            elif loaded:
+                key = pygame.key.get_pressed()
+                if key[pygame.K_LEFT]:
+                    print(2)
+                        #ball.move_player_left(ball.x_pos, ball.y_pos)
+                        # for i in range(30):
+                    screen.blit(ball_img, (ball.x_pos - 150, ball.y_pos))
+                if key[pygame.K_RIGHT]:
+                    pass
+
+
+
 
 
         # Set the clock tick to be 60 times per second. 60 frames for second.
