@@ -11,8 +11,10 @@ class App:
     def start_display(self):
         self.home_screen(self.screen)
 
-    def home_screen(self, screen, ball):
-        pygame.draw.circle(screen, (255, 0, 0), (X_POS_START, Y_POS_START), RADIUS)
+    def home_screen(self, screen):
+        img = pygame.image.load(BALL_PATH)
+        img = pygame.transform.scale(img, (BALL_WIDTH, BALL_HEIGHT))
+        screen.blit(img, (X_POS_START,Y_POS_START))
 
     def game_screen(self):
         pass
