@@ -5,19 +5,61 @@ class Player:
     def __init__(self, screen):
         self.x_pos = X_POS_START
         self.y_pos = Y_POS_START
-        self.color = (255, 0, 0)
-        img_path = BALL_PATH
-        img = pygame.image.load(img_path)
-        img = pygame.transform.scale(img, (BALL_WIDTH, BALL_HEIGHT))
+        self.color = RED
+        # img_path = BALL_PATH
+        # img = pygame.image.load(img_path)
+        # img = pygame.transform.scale(img, (BALL_WIDTH, BALL_HEIGHT))
         # screen.blit(img, (self.x_pos, self.y_pos))
-        self.player = img
+        # self.player = img
 
     def get_player(self):
         return self.player
 
-    def move_player_left(self, screen, x_p):
-        for i in range(30):
-            x_p -= 5
-            screen.blit(self.player, (x_p, self.y_pos))
+    def get_color(self):
+        return self.color
+
+    def get_x_pos(self):
+        return self.x_pos
+
+    def get_y_pos(self):
+        return self.y_pos
+
+    def set_x_pos(self, change_x):
+        self.x_pos += change_x
+
+    def move_player_left(self, screen):
+        clock = pygame.time.Clock()
+        if self.get_x_pos() == 110:
+            loop_times = CANT_MOVE_LOOP_TIMES
+        elif self.get_x_pos() == X_POS_START:
+            loop_times = START_MOVE_LEFT_LOOP_TIMES
+        else:
+            loop_times = MOVE_LOOP_TIMES
+        for i in range(loop_times):
+            pygame.draw.circle(screen, BLACK, (self.get_x_pos(), self.get_y_pos()), RADIUS)
+            self.set_x_pos(X_POS_CHANGE_LEFT)
+            pygame.draw.circle(screen, self.get_color(), (self.get_x_pos(), self.get_y_pos()), RADIUS)
+            pygame.display.flip()
+            clock.tick(120)
+            print(self.get_x_pos())
+
+    def move_player_right(self, screen):
+        clock = pygame.time.Clock()
+        if self.get_x_pos() == 390:
+            loop_times = CANT_MOVE_LOOP_TIMES
+        elif self.get_x_pos() == X_POS_START:
+            loop_times = START_MOVE_RIGHT_LOOP_TIMES
+        else:
+            loop_times = MOVE_LOOP_TIMES
+        for i in range(loop_times):
+            pygame.draw.circle(screen, BLACK, (self.get_x_pos(), self.get_y_pos()), RADIUS)
+            self.set_x_pos(X_POS_CHANGE_RIGHT)
+            pygame.draw.circle(screen, self.get_color(), (self.get_x_pos(), self.get_y_pos()), RADIUS)
+            pygame.display.flip()
+            clock.tick(120)
+            print(self.get_x_pos())
+
+
+
 
 

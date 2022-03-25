@@ -18,8 +18,8 @@ def main():
     ball = Player(screen)
     global display_screen
     display_screen = App(screen)
-    ball_img = ball.get_player()
-    screen.blit(ball_img, (ball.x_pos, ball.y_pos))
+    # ball_img = ball.get_player()
+    # screen.blit(ball_img, (ball.x_pos, ball.y_pos))
 
     block = Block(screen)
 
@@ -46,11 +46,10 @@ def main():
                 key = pygame.key.get_pressed()
                 if key[pygame.K_LEFT]:
                     print(2)
-                        #ball.move_player_left(ball.x_pos, ball.y_pos)
-                        # for i in range(30):
-                    screen.blit(ball_img, (ball.x_pos - 150, ball.y_pos))
+                    ball.move_player_left(screen)
                 if key[pygame.K_RIGHT]:
-                    pass
+                    print(3)
+                    ball.move_player_right(screen)
 
 
 
