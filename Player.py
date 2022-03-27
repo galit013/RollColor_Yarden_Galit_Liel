@@ -29,7 +29,7 @@ class Player:
 
     def move_player_left(self, screen):
         clock = pygame.time.Clock()
-        if self.get_x_pos() == 110:
+        if self.get_x_pos() == X_POS_LEFTEST:
             loop_times = CANT_MOVE_LOOP_TIMES
         elif self.get_x_pos() == X_POS_START:
             loop_times = START_MOVE_LEFT_LOOP_TIMES
@@ -45,7 +45,7 @@ class Player:
 
     def move_player_right(self, screen):
         clock = pygame.time.Clock()
-        if self.get_x_pos() == 390:
+        if self.get_x_pos() == X_POS_RIGHTEST:
             loop_times = CANT_MOVE_LOOP_TIMES
         elif self.get_x_pos() == X_POS_START:
             loop_times = START_MOVE_RIGHT_LOOP_TIMES
