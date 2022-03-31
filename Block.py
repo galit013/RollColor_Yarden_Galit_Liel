@@ -23,11 +23,15 @@ class Block:
         return self.y_pos
 
     def set_y_pos(self, change_y):
-        self.y_pos += change_y
+        if self.y_pos == 650:
+            self.y_pos = -250
+        else:
+            self.y_pos += change_y
+
 
     def move_block(self, screen):
         clock = pygame.time.Clock()
-        for i in range(50):
+        for i in range(130):
             pygame.draw.line(screen, BLACK, [self.get_x_pos(), self.get_y_pos()], [self.get_x_pos(), self.get_y_pos() + BLOCK_HEIGHT], BLOCK_WIDTH)
             self.set_y_pos(5)
             pygame.draw.line(screen, self.color, [self.get_x_pos(), self.get_y_pos()], [self.get_x_pos(), self.get_y_pos() + BLOCK_HEIGHT], BLOCK_WIDTH)
