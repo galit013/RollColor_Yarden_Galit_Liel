@@ -23,12 +23,13 @@ def main():
     # ball_img = ball.get_player()
     # screen.blit(ball_img, (ball.x_pos, ball.y_pos))
 
-    # block = Block(screen)
+    block = Block(screen)
 
     clock = pygame.time.Clock()
 
     # Display all drawings we have defined
     pygame.display.flip()
+
 
     running = True
     loaded = False
