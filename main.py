@@ -53,6 +53,10 @@ def main():
                 if question_mark.mouse_in_button(mouse_click_pos):
                     print(6)
                 print(1)
+                block = Block(screen, RED, 420, 340)
+                display_screen.game_screen(screen, block.get_color(), block.get_x_pos(), block.get_y_pos())
+                pygame.display.flip()
+
                 loaded = True
 
             elif loaded:
@@ -60,6 +64,8 @@ def main():
                 if key[pygame.K_LEFT]:
                     print(2)
                     ball.move_player_left(screen)
+                    block.move_block(screen)
+
                 if key[pygame.K_RIGHT]:
                     print(3)
                     ball.move_player_right(screen)
