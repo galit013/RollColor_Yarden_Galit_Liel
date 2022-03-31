@@ -12,9 +12,6 @@ class Player:
         # screen.blit(img, (self.x_pos, self.y_pos))
         # self.player = img
 
-    def get_player(self):
-        return self.player
-
     def get_color(self):
         return self.color
 
