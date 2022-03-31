@@ -3,6 +3,7 @@ from constants import *
 from App import *
 from Player import *
 from Block import*
+from Button import*
 
 
 def main():
@@ -14,6 +15,14 @@ def main():
 
     # Change the title of the window
     pygame.display.set_caption('RollColor')
+
+    img = pygame.image.load(QUESTION_MARK)
+    img = pygame.transform.scale(img, (QUESTION_MARK_WIDTH,QUESTION_MARK_HEIGHT))
+    screen.blit(img, (QUESTION_MARK_X_POS,QUESTION_MARK_Y_POS))
+
+    question_mark=Button(QUESTION_MARK_X_POS,QUESTION_MARK_Y_POS,QUESTION_MARK_HEIGHT,QUESTION_MARK_WIDTH)
+
+
 
     ball = Player(screen)
     global display_screen
@@ -39,6 +48,10 @@ def main():
                 running = False
             # checks if the user pressed the mouse button
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_click_pos = event.pos
+                if question_mark.mouse_in_button(mouse_click_pos):
+                    # print(6)
+                    pass
                 print(1)
                 loaded = True
 
