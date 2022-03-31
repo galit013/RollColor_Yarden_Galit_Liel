@@ -17,9 +17,7 @@ MOVE_LOOP_TIMES = 56
 # BALL_WIDTH = 50
 # BALL_HEIGHT = 50
 # BALL_PATH = "./images/ball.jpg"
-BLOCK_PATH = "./images/red block.png"
-BLOCK_WIDTH = 20
-BLOCK_HEIGHT = 250
 
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
+YELLOW = (255, 255, 0)

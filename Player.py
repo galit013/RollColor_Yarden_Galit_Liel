@@ -41,7 +41,6 @@ class Player:
             pygame.draw.circle(screen, self.get_color(), (self.get_x_pos(), self.get_y_pos()), RADIUS)
             pygame.display.flip()
             clock.tick(120)
-            print(self.get_x_pos())
 
     def move_player_right(self, screen):
         clock = pygame.time.Clock()
@@ -57,7 +56,6 @@ class Player:
             pygame.draw.circle(screen, self.get_color(), (self.get_x_pos(), self.get_y_pos()), RADIUS)
             pygame.display.flip()
             clock.tick(120)
-            print(self.get_x_pos())
 
 
 

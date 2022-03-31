@@ -62,7 +62,8 @@ def main():
                     print(score)
                     game_over = True
                     break
-                    best
+
+
 
 
             # Set the clock tick to be 60 times per second. 60 frames for second.

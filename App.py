@@ -1,6 +1,7 @@
 import pygame
 from constants import *
 from Player import *
+from Block import *
 
 
 class App:
@@ -18,9 +19,9 @@ class App:
         # img = pygame.image.load(BALL_PATH)
         # img = pygame.transform.scale(img, (BALL_WIDTH, BALL_HEIGHT))
         # screen.blit(ball.get_player(), (X_POS_START,Y_POS_START))
-        img = pygame.image.load(BLOCK_PATH)
-        img = pygame.transform.scale(img, (BLOCK_WIDTH, BLOCK_HEIGHT))
-        screen.blit(img, (0, 0))
+        # img = pygame.image.load(BLOCK_PATH)
+        # img = pygame.transform.scale(img, (BLOCK_WIDTH, BLOCK_HEIGHT))
+        # screen.blit(img, (0, 0))
 
     def game_screen(self):
         pass
