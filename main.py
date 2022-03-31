@@ -2,7 +2,7 @@ import pygame
 from constants import *
 from App import *
 from Player import *
-from Block import*
+from Block import *
 import time
 
 
@@ -30,11 +30,8 @@ def main():
     # Display all drawings we have defined
     pygame.display.flip()
 
-
     running = True
     loaded = False
-    global game_over
-    game_over = False
     while running:
         # Grabs events such as key pressed, mouse pressed and so.
         # Going through all the events that happened in the last clock tick
@@ -47,8 +44,8 @@ def main():
                 block = Block(screen, RED, 420, 340)
                 display_screen.game_screen(screen, block.get_color(), block.get_x_pos(), block.get_y_pos())
                 pygame.display.flip()
-                loaded = True
 
+                loaded = True
 
             elif loaded:
                 key = pygame.key.get_pressed()
@@ -60,17 +57,15 @@ def main():
                 if key[pygame.K_RIGHT]:
                     print(3)
                     ball.move_player_right(screen)
-                    block.move_block(screen)
-            # if can_move_block and loaded:
-
+                # Updating the score based on the keys events
                 while key[pygame.K_RIGHT] or key[pygame.K_LEFT]:
                     score += 10
                     time.sleep(0.2)
                     print(score)
                     game_over = True
                     break
+                # Saving the last score as the best
                 best_score = score
-
 
         # Set the clock tick to be 60 times per second. 60 frames for second.
         # If we want faster game - increase the parameter.
