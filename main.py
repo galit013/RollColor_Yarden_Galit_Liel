@@ -57,13 +57,15 @@ def main():
                 if question_mark.mouse_in_button(mouse_click_pos):
                     print(6)
                 print(1)
-                block_right = Block(screen, RED, 419, 340, 250)
-                block2_right = Block(screen, YELLOW, 419, 340 - 250, 250)
-                block3_right = Block(screen, RED, 419, 340 - 500, 250)
+                score_font = pygame.font.SysFont(SCORE_FONT, SCORE_FONT_SIZE)
+                screen.blit(score_font.render("SCORE:", True, WHITE), (X_POS_SCORE, Y_POS_SCORE))
+                block_right = Block(screen, RED, X_POS_RIGHT_BLOCK, Y_POS_BLOCK, BLOCK_START_HEIGHT)
+                block2_right = Block(screen, YELLOW, X_POS_RIGHT_BLOCK, Y_POS_BLOCK2, BLOCK_START_HEIGHT)
+                block3_right = Block(screen, RED, X_POS_RIGHT_BLOCK, Y_POS_BLOCK3, BLOCK_START_HEIGHT)
                 block_list_right = [block_right, block2_right, block3_right]
-                block_left = Block(screen, YELLOW, 79, 340, 250)
-                block2_left = Block(screen, RED, 79, 340 - 250, 250)
-                block3_left = Block(screen, YELLOW, 79, 340 - 500, 250)
+                block_left = Block(screen, YELLOW, X_POS_LEFT_BLOCK, Y_POS_BLOCK, BLOCK_START_HEIGHT)
+                block2_left = Block(screen, RED, X_POS_LEFT_BLOCK, Y_POS_BLOCK2, BLOCK_START_HEIGHT)
+                block3_left = Block(screen, YELLOW, X_POS_LEFT_BLOCK, Y_POS_BLOCK3, BLOCK_START_HEIGHT)
                 block_list_left = [block_left, block2_left, block3_left]
                 display_screen.game_screen(screen, block_list_right)
                 display_screen.game_screen(screen, block_list_left)
@@ -74,8 +76,9 @@ def main():
             elif loaded:
                 start_score = False
                 # block.move_block(screen)
-                display_screen.move_block_list_right(screen, block_list_right)
-                display_screen.move_block_list_left(screen, block_list_left)
+                # display_screen.move_block_list_right(screen, block_list_right)
+                # display_screen.move_block_list_left(screen, block_list_left)
+                display_screen.move_blocks(screen, block_list_right, block_list_left)
                 pygame.display.flip()
                 key = pygame.key.get_pressed()
                 if key[pygame.K_LEFT]:
@@ -87,8 +90,11 @@ def main():
                     start_score = True
                 # Updating the score based on the keys events
                 if start_score:
-                    score += 10
+                    score += SCORE_CHANGE
+                    pygame.draw.line(screen, BLACK, [X_START_SCORE_REC, Y_START_SCORE_REC], [X_START_SCORE_REC, Y_END_SCORE_REC], SCORE_REC_WIDTH)
+                    screen.blit(score_font.render("SCORE:" + str(score), True, WHITE), (X_POS_SCORE, Y_POS_SCORE))
                     time.sleep(0.2)
+                    pygame.display.flip()
                     print(score)
                     if score > best_score:
                         best_score = score
