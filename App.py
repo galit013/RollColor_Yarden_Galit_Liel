@@ -2,6 +2,7 @@ import pygame
 from constants import *
 from Player import *
 from Block import *
+import random
 
 
 class App:
@@ -25,10 +26,79 @@ class App:
         # img = pygame.transform.scale(img, (BLOCK_WIDTH, BLOCK_HEIGHT))
         # screen.blit(img, (0, 0))
 
-    def game_screen(self, screen, color, x_start_block, y_start_block):
-        print(type(x_start_block))
-        print(type(y_start_block))
-        pygame.draw.line(screen, color, [x_start_block, y_start_block], [x_start_block, y_start_block + BLOCK_HEIGHT], BLOCK_WIDTH)
+    def game_screen(self, screen, block_list):
+        for block in block_list:
+            pygame.draw.line(screen, block.get_color(), [block.get_x_pos(), block.get_y_pos()],
+                             [block.get_x_pos(), block.get_y_pos() + block.get_height()], BLOCK_WIDTH)
+
+    def move_blocks(self, screen, block_list_right, block_list_left):
+        clock = pygame.time.Clock()
+        while True:# for i in range(130):
+            for i in range(len(block_list_left)):
+                pygame.draw.line(screen, BLACK, [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos()],
+                                 [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos() + block_list_left[i].get_height()], BLOCK_WIDTH)
+                pygame.draw.line(screen, BLACK, [block_list_right[i].get_x_pos(), block_list_right[i].get_y_pos()],
+                                 [block_list_right[i].get_x_pos(), block_list_right[i].get_y_pos() + block_list_right[i].get_height()], BLOCK_WIDTH)
+                if block_list_right[len(block_list_right) - 1].get_y_pos() == 0:
+                    current_block_height = BLOCK_HEIGHT_LIST[random.randint(0, 5)]
+                    if block_list_right[len(block_list_right) - 1].get_color() == RED:
+                        block_list_right.append(Block(screen, YELLOW, X_POS_RIGHT_BLOCK, -current_block_height, current_block_height))
+                        block_list_left.append(Block(screen, RED, X_POS_LEFT_BLOCK, -current_block_height, current_block_height))
+                    else:
+                        block_list_right.append(Block(screen, RED, X_POS_RIGHT_BLOCK, -current_block_height, current_block_height))
+                        block_list_left.append(Block(screen, YELLOW, X_POS_LEFT_BLOCK, -current_block_height, current_block_height))
+                block_list_left[i].set_y_pos(Y_POS_CHANGE)
+                block_list_right[i].set_y_pos(Y_POS_CHANGE)
+                pygame.draw.line(screen, block_list_right[i].color, [block_list_right[i].get_x_pos(), block_list_right[i].get_y_pos()],
+                                 [block_list_right[i].get_x_pos(), block_list_right[i].get_y_pos() + block_list_right[i].get_height()], BLOCK_WIDTH)
+                pygame.draw.line(screen, block_list_left[i].color, [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos()],
+                                 [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos() + block_list_left[i].get_height()], BLOCK_WIDTH)
+
+                pygame.display.flip()
+                clock.tick(120)
+
+    # def move_block_list_right(self, screen, block_list):
+    #     clock = pygame.time.Clock()
+    #     while True:# for i in range(130):
+    #         for block in block_list:
+    #             pygame.draw.line(screen, BLACK, [block.get_x_pos(), block.get_y_pos()],
+    #                              [block.get_x_pos(), block.get_y_pos() + block.get_height()], BLOCK_WIDTH)
+    #             if block_list[len(block_list) - 1].get_y_pos() == 0:
+    #                 current_block_height = BLOCK_HEIGHT_LIST[random.randint(0, 5)]
+    #                 if block_list[len(block_list) - 1].get_color() == RED:
+    #                     block_list.append(Block(screen, YELLOW, 419, -current_block_height, current_block_height))
+    #                 else:
+    #                     block_list.append(Block(screen, RED, 419, -current_block_height, current_block_height))
+    #             block.set_y_pos(5)
+    #             pygame.draw.line(screen, block.color, [block.get_x_pos(), block.get_y_pos()],
+    #                              [block.get_x_pos(), block.get_y_pos() + block.get_height()], BLOCK_WIDTH)
+    #
+    #             pygame.display.flip()
+    #             clock.tick(120)
+    #             print(block.get_height())
+    #
+    # def move_block_list_left(self, screen, block_list):
+    #     clock = pygame.time.Clock()
+    #     while True:  # for i in range(130):
+    #         for block in block_list:
+    #             pygame.draw.line(screen, BLACK, [block.get_x_pos(), block.get_y_pos()],
+    #                              [block.get_x_pos(), block.get_y_pos() + block.get_height()], BLOCK_WIDTH)
+    #             if block_list[len(block_list) - 1].get_y_pos() == 0:
+    #                 current_block_height = BLOCK_HEIGHT_LIST[random.randint(0, 5)]
+    #                 if block_list[len(block_list) - 1].get_color() == RED:
+    #                     block_list.append(Block(screen, YELLOW, 79, -current_block_height, current_block_height))
+    #                 else:
+    #                     block_list.append(Block(screen, RED, 79, -current_block_height, current_block_height))
+    #             block.set_y_pos(5)
+    #             pygame.draw.line(screen, block.color, [block.get_x_pos(), block.get_y_pos()],
+    #                              [block.get_x_pos(), block.get_y_pos() + block.get_height()], BLOCK_WIDTH)
+    #
+    #             pygame.display.flip()
+    #             clock.tick(120)
+    #             print(block.get_height())
 
     def ending_game_screen(self):
         pass
+
+
+

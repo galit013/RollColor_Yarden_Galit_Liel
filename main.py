@@ -8,7 +8,6 @@ import time
 
 
 def main():
-    score = 0
     # Set up the game display, clock and headline
     pygame.init()
     # Create the screen and show it
@@ -41,11 +40,16 @@ def main():
 
     running = True
     loaded = False
+    game_over = False
+    best_score = 0
+    score = 0
     while running:
+
         # Grabs events such as key pressed, mouse pressed and so.
         # Going through all the events that happened in the last clock tick
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                print(best_score)
                 running = False
             # checks if the user pressed the mouse button
             elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -53,36 +57,58 @@ def main():
                 if question_mark.mouse_in_button(mouse_click_pos):
                     print(6)
                 print(1)
-                block = Block(screen, RED, 420, 340)
-                display_screen.game_screen(screen, block.get_color(), block.get_x_pos(), block.get_y_pos())
+                score_font = pygame.font.SysFont(SCORE_FONT, SCORE_FONT_SIZE)
+                screen.blit(score_font.render("SCORE:", True, WHITE), (X_POS_SCORE, Y_POS_SCORE))
+                block_right = Block(screen, RED, X_POS_RIGHT_BLOCK, Y_POS_BLOCK, BLOCK_START_HEIGHT)
+                block2_right = Block(screen, YELLOW, X_POS_RIGHT_BLOCK, Y_POS_BLOCK2, BLOCK_START_HEIGHT)
+                block3_right = Block(screen, RED, X_POS_RIGHT_BLOCK, Y_POS_BLOCK3, BLOCK_START_HEIGHT)
+                block_list_right = [block_right, block2_right, block3_right]
+                block_left = Block(screen, YELLOW, X_POS_LEFT_BLOCK, Y_POS_BLOCK, BLOCK_START_HEIGHT)
+                block2_left = Block(screen, RED, X_POS_LEFT_BLOCK, Y_POS_BLOCK2, BLOCK_START_HEIGHT)
+                block3_left = Block(screen, YELLOW, X_POS_LEFT_BLOCK, Y_POS_BLOCK3, BLOCK_START_HEIGHT)
+                block_list_left = [block_left, block2_left, block3_left]
+                display_screen.game_screen(screen, block_list_right)
+                display_screen.game_screen(screen, block_list_left)
                 pygame.display.flip()
 
                 loaded = True
 
             elif loaded:
+                start_score = False
+                # block.move_block(screen)
+                # display_screen.move_block_list_right(screen, block_list_right)
+                # display_screen.move_block_list_left(screen, block_list_left)
+                display_screen.move_blocks(screen, block_list_right, block_list_left)
+                pygame.display.flip()
                 key = pygame.key.get_pressed()
                 if key[pygame.K_LEFT]:
-                    print(2)
                     ball.move_player_left(screen)
-                    block.move_block(screen)
+                    start_score = True
 
                 if key[pygame.K_RIGHT]:
-                    print(3)
                     ball.move_player_right(screen)
+                    start_score = True
                 # Updating the score based on the keys events
-                while key[pygame.K_RIGHT] or key[pygame.K_LEFT]:
-                    score += 10
+                if start_score:
+                    score += SCORE_CHANGE
+                    pygame.draw.line(screen, BLACK, [X_START_SCORE_REC, Y_START_SCORE_REC], [X_START_SCORE_REC, Y_END_SCORE_REC], SCORE_REC_WIDTH)
+                    screen.blit(score_font.render("SCORE:" + str(score), True, WHITE), (X_POS_SCORE, Y_POS_SCORE))
                     time.sleep(0.2)
+                    pygame.display.flip()
                     print(score)
-                    game_over = True
-                    break
-                # Saving the last score as the best
-                best_score = score
+                    if score > best_score:
+                        best_score = score
+                    # while running:
+                    #     score += 10
+                    #     time.sleep(0.2)
+                    #     game_over = True
+                    #     break
+                        # print(score)
+                # # Saving the last score as the best
 
         # Set the clock tick to be 60 times per second. 60 frames for second.
         # If we want faster game - increase the parameter.
-        # pygame.display.flip()
-        # clock.tick(120)
+        pygame.display.flip()
         clock.tick(60)
     pygame.quit()
     quit()
