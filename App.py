@@ -31,9 +31,9 @@ class App:
             pygame.draw.line(screen, block.get_color(), [block.get_x_pos(), block.get_y_pos()],
                              [block.get_x_pos(), block.get_y_pos() + block.get_height()], BLOCK_WIDTH)
 
-    def move_blocks(self, screen, block_list_right, block_list_left):
+    def move_blocks(self, screen, block_list_right, block_list_left, change_y_pos):
         clock = pygame.time.Clock()
-        while True:# for i in range(130):
+        while True:
             for i in range(len(block_list_left)):
                 pygame.draw.line(screen, BLACK, [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos()],
                                  [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos() + block_list_left[i].get_height()], BLOCK_WIDTH)
@@ -47,15 +47,15 @@ class App:
                     else:
                         block_list_right.append(Block(screen, RED, X_POS_RIGHT_BLOCK, -current_block_height, current_block_height))
                         block_list_left.append(Block(screen, YELLOW, X_POS_LEFT_BLOCK, -current_block_height, current_block_height))
-                block_list_left[i].set_y_pos(Y_POS_CHANGE)
-                block_list_right[i].set_y_pos(Y_POS_CHANGE)
+                block_list_left[i].set_y_pos(change_y_pos)
+                block_list_right[i].set_y_pos(change_y_pos)
                 pygame.draw.line(screen, block_list_right[i].color, [block_list_right[i].get_x_pos(), block_list_right[i].get_y_pos()],
                                  [block_list_right[i].get_x_pos(), block_list_right[i].get_y_pos() + block_list_right[i].get_height()], BLOCK_WIDTH)
                 pygame.draw.line(screen, block_list_left[i].color, [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos()],
                                  [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos() + block_list_left[i].get_height()], BLOCK_WIDTH)
 
                 pygame.display.flip()
-                clock.tick(120)
+                clock.tick(60)
 
     # def move_block_list_right(self, screen, block_list):
     #     clock = pygame.time.Clock()
