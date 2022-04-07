@@ -47,6 +47,7 @@ def main():
     start_blocks = 0
     level = 0
     levels = [5, 30, 120, 200]
+    start_score = False
     while running:
 
         # Grabs events such as key pressed, mouse pressed and so.
@@ -81,7 +82,7 @@ def main():
                 loaded += 1
 
             elif loaded == 1:
-                start_score = False
+
 
                 direction = ""
                 player_thread = threading.Thread(target=ball.move_player,
@@ -107,30 +108,30 @@ def main():
                     blocks_thread.start()
 
                 # Updating the score based on the keys events
-                if start_score:
-                    score += SCORE_CHANGE
-                    pygame.draw.line(screen, BLACK, [X_START_SCORE_REC, Y_START_SCORE_REC], [X_START_SCORE_REC, Y_END_SCORE_REC], SCORE_REC_WIDTH)
-                    screen.blit(score_font.render("SCORE:" + str(score), True, WHITE), (X_POS_SCORE, Y_POS_SCORE))
-                    time.sleep(0.2)
-                    pygame.display.flip()
-                    print(score)
-                    if score > best_score:
-                        best_score = score
-                    if score == 50:
-                        level = 1
-                        print("l1")
-                    if score == 100:
-                        level = 2
-                        print("l2")
-                    if score == 150:
-                        level = 3
-                        print("l3")
-                    if score >= 200 and score % 50 == 0:
-                        level += 1
-                        if level >= len(levels):
-                            length = len(levels) - 1
-                            levels.append(levels[length] * 3)
-                            print(levels[level])
+        if start_score:
+            score += SCORE_CHANGE
+            pygame.draw.line(screen, BLACK, [X_START_SCORE_REC, Y_START_SCORE_REC], [X_START_SCORE_REC, Y_END_SCORE_REC], SCORE_REC_WIDTH)
+            screen.blit(score_font.render("SCORE:" + str(score), True, WHITE), (X_POS_SCORE, Y_POS_SCORE))
+            time.sleep(0.2)
+            pygame.display.flip()
+            print(score)
+            if score > best_score:
+                 best_score = score
+            if score == 50:
+                level = 1
+                print("l1")
+            if score == 100:
+                level = 2
+                print("l2")
+            if score == 150:
+                level = 3
+                print("l3")
+            if score >= 200 and score % 50 == 0:
+                level += 1
+                if level >= len(levels):
+                    length = len(levels) - 1
+                    levels.append(levels[length] * 3)
+                    print(levels[level])
 
 
         # Set the clock tick to be 60 times per second. 60 frames for second.
