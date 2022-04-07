@@ -11,6 +11,7 @@ class App:
         self.screen = screen
         self.curr_screen = None
         self.start_display()
+        self.game_over = False
 
     def start_display(self):
         ball = Player(self.screen)
@@ -34,11 +35,13 @@ class App:
 
     def move_blocks(self, screen, block_list_right, block_list_left, change_y_pos, ball):
         clock = pygame.time.Clock()
-        game_over = True
-        while game_over:
+        while not self.game_over:
             for i in range(len(block_list_left)):
                 if check_game_over(block_list_right[i], block_list_left[i], ball.get_x_pos(), ball.get_y_pos(), ball.get_color()):
-                    game_over = False
+                    print("over")
+                    self.ending_game_screen()
+
+                    self.game_over = True
 
                 pygame.draw.line(screen, BLACK, [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos()],
                                  [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos() + block_list_left[i].get_height()], BLOCK_WIDTH)
@@ -61,50 +64,16 @@ class App:
 
 
                 pygame.display.flip()
-                clock.tick(60)
+                clock.tick(200)
+            return self.game_over
 
-    # def move_block_list_right(self, screen, block_list):
-    #     clock = pygame.time.Clock()
-    #     while True:# for i in range(130):
-    #         for block in block_list:
-    #             pygame.draw.line(screen, BLACK, [block.get_x_pos(), block.get_y_pos()],
-    #                              [block.get_x_pos(), block.get_y_pos() + block.get_height()], BLOCK_WIDTH)
-    #             if block_list[len(block_list) - 1].get_y_pos() == 0:
-    #                 current_block_height = BLOCK_HEIGHT_LIST[random.randint(0, 5)]
-    #                 if block_list[len(block_list) - 1].get_color() == RED:
-    #                     block_list.append(Block(screen, YELLOW, 419, -current_block_height, current_block_height))
-    #                 else:
-    #                     block_list.append(Block(screen, RED, 419, -current_block_height, current_block_height))
-    #             block.set_y_pos(5)
-    #             pygame.draw.line(screen, block.color, [block.get_x_pos(), block.get_y_pos()],
-    #                              [block.get_x_pos(), block.get_y_pos() + block.get_height()], BLOCK_WIDTH)
-    #
-    #             pygame.display.flip()
-    #             clock.tick(120)
-    #             print(block.get_height())
-    #
-    # def move_block_list_left(self, screen, block_list):
-    #     clock = pygame.time.Clock()
-    #     while True:  # for i in range(130):
-    #         for block in block_list:
-    #             pygame.draw.line(screen, BLACK, [block.get_x_pos(), block.get_y_pos()],
-    #                              [block.get_x_pos(), block.get_y_pos() + block.get_height()], BLOCK_WIDTH)
-    #             if block_list[len(block_list) - 1].get_y_pos() == 0:
-    #                 current_block_height = BLOCK_HEIGHT_LIST[random.randint(0, 5)]
-    #                 if block_list[len(block_list) - 1].get_color() == RED:
-    #                     block_list.append(Block(screen, YELLOW, 79, -current_block_height, current_block_height))
-    #                 else:
-    #                     block_list.append(Block(screen, RED, 79, -current_block_height, current_block_height))
-    #             block.set_y_pos(5)
-    #             pygame.draw.line(screen, block.color, [block.get_x_pos(), block.get_y_pos()],
-    #                              [block.get_x_pos(), block.get_y_pos() + block.get_height()], BLOCK_WIDTH)
-    #
-    #             pygame.display.flip()
-    #             clock.tick(120)
-    #             print(block.get_height())
 
     def ending_game_screen(self):
-        pass
+        # Set up the game display, clock and headline
+        pygame.init()
+        # Create the screen and show it
+        screen_size = (WINDOW_WIDTH, WINDOW_HEIGHT)
+        screen = pygame.display.set_mode(screen_size)
 
 
 

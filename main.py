@@ -46,7 +46,7 @@ def main():
     score = 0
     start_blocks = 0
     level = 0
-    clock_tick = 120
+    clock_tick = 200
     # levels = [5, 7, 9, 11]
     start_score = False
     while running:
@@ -101,11 +101,12 @@ def main():
                     start_blocks += 1
                     ball.move_player(screen, "right")
 
-                if start_blocks == 1:
-                    blocks_thread = threading.Thread(target=display_screen.move_blocks,
-                                                     args=(screen, block_list_right, block_list_left, 5, ball)
-                                                     , daemon=True)
-                    blocks_thread.start()
+        if start_blocks == 1:
+            blocks_thread = threading.Thread(target=display_screen.move_blocks,
+                                             args=(screen, block_list_right, block_list_left, 5, ball))
+            blocks_thread.start()
+
+
 
         # Updating the score
         if start_score:
@@ -129,13 +130,6 @@ def main():
                 level = 3
                 clock_tick = 240
                 print("l3")
-            # if score >= 200 and score % 50 == 0:
-            #     level += 1
-            #     if level >= len(levels):
-            #         length = len(levels) - 1
-            #         levels.append(levels[length] * 3)
-            #         print(levels[level])
-
 
         # Set the clock tick to be 60 times per second. 60 frames for second.
         # If we want faster game - increase the parameter.
