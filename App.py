@@ -3,6 +3,7 @@ from constants import *
 from Player import *
 from Block import *
 import random
+from helpers import *
 
 
 class App:
@@ -31,10 +32,14 @@ class App:
             pygame.draw.line(screen, block.get_color(), [block.get_x_pos(), block.get_y_pos()],
                              [block.get_x_pos(), block.get_y_pos() + block.get_height()], BLOCK_WIDTH)
 
-    def move_blocks(self, screen, block_list_right, block_list_left, change_y_pos):
+    def move_blocks(self, screen, block_list_right, block_list_left, change_y_pos, ball):
         clock = pygame.time.Clock()
-        while True:
+        game_over = True
+        while game_over:
             for i in range(len(block_list_left)):
+                if check_game_over(block_list_right[i], block_list_left[i], ball.get_x_pos(), ball.get_y_pos(), ball.get_color()):
+                    game_over = False
+
                 pygame.draw.line(screen, BLACK, [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos()],
                                  [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos() + block_list_left[i].get_height()], BLOCK_WIDTH)
                 pygame.draw.line(screen, BLACK, [block_list_right[i].get_x_pos(), block_list_right[i].get_y_pos()],
@@ -53,6 +58,7 @@ class App:
                                  [block_list_right[i].get_x_pos(), block_list_right[i].get_y_pos() + block_list_right[i].get_height()], BLOCK_WIDTH)
                 pygame.draw.line(screen, block_list_left[i].color, [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos()],
                                  [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos() + block_list_left[i].get_height()], BLOCK_WIDTH)
+
 
                 pygame.display.flip()
                 clock.tick(60)

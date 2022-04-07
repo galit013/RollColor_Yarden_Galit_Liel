@@ -46,7 +46,8 @@ def main():
     score = 0
     start_blocks = 0
     level = 0
-    levels = [5, 30, 120, 200]
+    clock_tick = 120
+    # levels = [5, 7, 9, 11]
     start_score = False
     while running:
 
@@ -83,7 +84,6 @@ def main():
 
             elif loaded == 1:
 
-
                 direction = ""
                 player_thread = threading.Thread(target=ball.move_player,
                                                  args=(screen, direction))
@@ -103,41 +103,44 @@ def main():
 
                 if start_blocks == 1:
                     blocks_thread = threading.Thread(target=display_screen.move_blocks,
-                                                     args=(screen, block_list_right, block_list_left, levels[level])
+                                                     args=(screen, block_list_right, block_list_left, 5, ball)
                                                      , daemon=True)
                     blocks_thread.start()
 
-                # Updating the score based on the keys events
+        # Updating the score
         if start_score:
             score += SCORE_CHANGE
             pygame.draw.line(screen, BLACK, [X_START_SCORE_REC, Y_START_SCORE_REC], [X_START_SCORE_REC, Y_END_SCORE_REC], SCORE_REC_WIDTH)
             screen.blit(score_font.render("SCORE:" + str(score), True, WHITE), (X_POS_SCORE, Y_POS_SCORE))
             time.sleep(0.2)
             pygame.display.flip()
-            print(score)
+            # print(score)
             if score > best_score:
                  best_score = score
-            if score == 50:
+            if score == 200:
                 level = 1
+                clock_tick = 150
                 print("l1")
-            if score == 100:
+            if score == 500:
                 level = 2
+                clock_tick = 200
                 print("l2")
-            if score == 150:
+            if score == 1000:
                 level = 3
+                clock_tick = 240
                 print("l3")
-            if score >= 200 and score % 50 == 0:
-                level += 1
-                if level >= len(levels):
-                    length = len(levels) - 1
-                    levels.append(levels[length] * 3)
-                    print(levels[level])
+            # if score >= 200 and score % 50 == 0:
+            #     level += 1
+            #     if level >= len(levels):
+            #         length = len(levels) - 1
+            #         levels.append(levels[length] * 3)
+            #         print(levels[level])
 
 
         # Set the clock tick to be 60 times per second. 60 frames for second.
         # If we want faster game - increase the parameter.
         pygame.display.flip()
-        clock.tick(120)
+        clock.tick(clock_tick)
     pygame.quit()
     quit()
 
