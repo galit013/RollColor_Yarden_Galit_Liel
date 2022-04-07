@@ -35,13 +35,12 @@ def main():
     # block = Block(screen)
 
     clock = pygame.time.Clock()
-    clock_tick = 60
 
     # Display all drawings we have defined
     pygame.display.flip()
 
     running = True
-    loaded = False
+    loaded = 0
     game_over = False
     best_score = 0
     score = 0
@@ -79,9 +78,9 @@ def main():
                 display_screen.game_screen(screen, block_list_left)
                 pygame.display.flip()
 
-                loaded = True
+                loaded += 1
 
-            elif loaded:
+            elif loaded == 1:
                 start_score = False
 
                 direction = ""
