@@ -5,6 +5,7 @@ from Player import *
 from Block import *
 from Button import *
 import time
+import threading
 
 
 def main():
@@ -39,10 +40,13 @@ def main():
     pygame.display.flip()
 
     running = True
-    loaded = False
+    loaded = 0
     game_over = False
     best_score = 0
     score = 0
+    start_blocks = 0
+    level = 0
+    levels = [5, 30, 120, 200]
     while running:
 
         # Grabs events such as key pressed, mouse pressed and so.
@@ -57,8 +61,10 @@ def main():
                 if question_mark.mouse_in_button(mouse_click_pos):
                     print(6)
                 print(1)
+                # show start score
                 score_font = pygame.font.SysFont(SCORE_FONT, SCORE_FONT_SIZE)
                 screen.blit(score_font.render("SCORE:", True, WHITE), (X_POS_SCORE, Y_POS_SCORE))
+                # build start blocks
                 block_right = Block(screen, RED, X_POS_RIGHT_BLOCK, Y_POS_BLOCK, BLOCK_START_HEIGHT)
                 block2_right = Block(screen, YELLOW, X_POS_RIGHT_BLOCK, Y_POS_BLOCK2, BLOCK_START_HEIGHT)
                 block3_right = Block(screen, RED, X_POS_RIGHT_BLOCK, Y_POS_BLOCK3, BLOCK_START_HEIGHT)
@@ -67,27 +73,39 @@ def main():
                 block2_left = Block(screen, RED, X_POS_LEFT_BLOCK, Y_POS_BLOCK2, BLOCK_START_HEIGHT)
                 block3_left = Block(screen, YELLOW, X_POS_LEFT_BLOCK, Y_POS_BLOCK3, BLOCK_START_HEIGHT)
                 block_list_left = [block_left, block2_left, block3_left]
+                # display start blocks
                 display_screen.game_screen(screen, block_list_right)
                 display_screen.game_screen(screen, block_list_left)
                 pygame.display.flip()
 
-                loaded = True
+                loaded += 1
 
-            elif loaded:
+            elif loaded == 1:
                 start_score = False
-                # block.move_block(screen)
-                # display_screen.move_block_list_right(screen, block_list_right)
-                # display_screen.move_block_list_left(screen, block_list_left)
-                display_screen.move_blocks(screen, block_list_right, block_list_left)
+
+                direction = ""
+                player_thread = threading.Thread(target=ball.move_player,
+                                                 args=(screen, direction))
+                player_thread.start()
                 pygame.display.flip()
+
                 key = pygame.key.get_pressed()
                 if key[pygame.K_LEFT]:
-                    ball.move_player_left(screen)
                     start_score = True
+                    start_blocks += 1
+                    ball.move_player(screen, "left")
 
                 if key[pygame.K_RIGHT]:
-                    ball.move_player_right(screen)
                     start_score = True
+                    start_blocks += 1
+                    ball.move_player(screen, "right")
+
+                if start_blocks == 1:
+                    blocks_thread = threading.Thread(target=display_screen.move_blocks,
+                                                     args=(screen, block_list_right, block_list_left, levels[level])
+                                                     , daemon=True)
+                    blocks_thread.start()
+
                 # Updating the score based on the keys events
                 if start_score:
                     score += SCORE_CHANGE
@@ -98,18 +116,27 @@ def main():
                     print(score)
                     if score > best_score:
                         best_score = score
-                    # while running:
-                    #     score += 10
-                    #     time.sleep(0.2)
-                    #     game_over = True
-                    #     break
-                        # print(score)
-                # # Saving the last score as the best
+                    if score == 50:
+                        level = 1
+                        print("l1")
+                    if score == 100:
+                        level = 2
+                        print("l2")
+                    if score == 150:
+                        level = 3
+                        print("l3")
+                    if score >= 200 and score % 50 == 0:
+                        level += 1
+                        if level >= len(levels):
+                            length = len(levels) - 1
+                            levels.append(levels[length] * 3)
+                            print(levels[level])
+
 
         # Set the clock tick to be 60 times per second. 60 frames for second.
         # If we want faster game - increase the parameter.
         pygame.display.flip()
-        clock.tick(60)
+        clock.tick(120)
     pygame.quit()
     quit()
 
