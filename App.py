@@ -33,14 +33,14 @@ class App:
             pygame.draw.line(screen, block.get_color(), [block.get_x_pos(), block.get_y_pos()],
                              [block.get_x_pos(), block.get_y_pos() + block.get_height()], BLOCK_WIDTH)
 
-    def move_blocks(self, screen, block_list_right, block_list_left, change_y_pos, ball):
+    def move_blocks(self, screen, block_list_right, block_list_left, change_y_pos, ball, score):
         clock = pygame.time.Clock()
+        game_over = False
         while not self.game_over:
             for i in range(len(block_list_left)):
                 if check_game_over(block_list_right[i], block_list_left[i], ball.get_x_pos(), ball.get_y_pos(), ball.get_color()):
                     print("over")
-                    self.ending_game_screen()
-
+                    self.ending_game_screen(score)
                     self.game_over = True
 
                 pygame.draw.line(screen, BLACK, [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos()],
@@ -64,16 +64,40 @@ class App:
 
 
                 pygame.display.flip()
-                clock.tick(200)
-            return self.game_over
+                clock.tick(50)
+            # return game_over
 
 
-    def ending_game_screen(self):
-        # Set up the game display, clock and headline
-        pygame.init()
-        # Create the screen and show it
-        screen_size = (WINDOW_WIDTH, WINDOW_HEIGHT)
-        screen = pygame.display.set_mode(screen_size)
+    def ending_game_screen(self, score):
+        pass
+        # # Set up the game display, clock and headline
+        # pygame.init()
+        # # Create the screen and show it
+        # game_over_screen_size = (WINDOW_WIDTH, WINDOW_HEIGHT)
+        # game_over_screen = pygame.display.set_mode(game_over_screen_size)
+        # img = pygame.image.load(GAME_OVER)
+        # img = pygame.transform.scale(img, (GAME_OVER_WIDTH, GAME_OVER_HEIGHT))
+        # self.screen.blit(img, (GAME_OVER_X_POS, GAME_OVER_Y_POS))
+        #
+        # img = pygame.image.load(HOME_BUTTON)
+        # img = pygame.transform.scale(img, (HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT))
+        # self.screen.blit(img, (HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS))
+        #
+        # img = pygame.image.load(BACKGROUND)
+        # img = pygame.transform.scale(img, (BACKGROUND_WIDTH, BACKGROUND_HEIGHT))
+        # self.screen.blit(img, (BACKGROUND_X_POS, BACKGROUND_Y_POS))
+        #
+        # score_font = pygame.font.SysFont(SCORE_FONT, SCORE_FONT_SIZE)
+        # self.screen.blit(score_font.render("SCORE:" + str(score), True, WHITE), (200, 400))
+
+
+
+
+
+
+
+
+
 
 
 

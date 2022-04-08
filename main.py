@@ -39,17 +39,22 @@ def main():
     # Display all drawings we have defined
     pygame.display.flip()
 
+    global running
     running = True
     loaded = 0
     game_over = False
     best_score = 0
+    global score
     score = 0
     start_blocks = 0
     level = 0
-    clock_tick = 200
+    clock_tick = 60
     # levels = [5, 7, 9, 11]
     start_score = False
     while running:
+        click_home_button(screen)
+
+
 
         # Grabs events such as key pressed, mouse pressed and so.
         # Going through all the events that happened in the last clock tick
@@ -60,6 +65,10 @@ def main():
             # checks if the user pressed the mouse button
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 mouse_click_pos = event.pos
+
+                img = pygame.image.load(BACKGROUND)
+                img = pygame.transform.scale(img, (QUESTION_MARK_WIDTH,QUESTION_MARK_HEIGHT))
+                screen.blit(img, (QUESTION_MARK_X_POS,QUESTION_MARK_Y_POS))
                 if question_mark.mouse_in_button(mouse_click_pos):
                     print(6)
                 print(1)
@@ -84,6 +93,7 @@ def main():
 
             elif loaded == 1:
 
+
                 direction = ""
                 player_thread = threading.Thread(target=ball.move_player,
                                                  args=(screen, direction))
@@ -103,13 +113,13 @@ def main():
 
         if start_blocks == 1:
             blocks_thread = threading.Thread(target=display_screen.move_blocks,
-                                             args=(screen, block_list_right, block_list_left, 5, ball))
+                                             args=(screen, block_list_right, block_list_left, 5, ball, score))
             blocks_thread.start()
 
 
 
         # Updating the score
-        if start_score:
+        if start_score and not display_screen.game_over:
             score += SCORE_CHANGE
             pygame.draw.line(screen, BLACK, [X_START_SCORE_REC, Y_START_SCORE_REC], [X_START_SCORE_REC, Y_END_SCORE_REC], SCORE_REC_WIDTH)
             screen.blit(score_font.render("SCORE:" + str(score), True, WHITE), (X_POS_SCORE, Y_POS_SCORE))
@@ -118,18 +128,19 @@ def main():
             # print(score)
             if score > best_score:
                  best_score = score
-            if score == 200:
-                level = 1
-                clock_tick = 150
-                print("l1")
-            if score == 500:
-                level = 2
-                clock_tick = 200
-                print("l2")
-            if score == 1000:
-                level = 3
-                clock_tick = 240
-                print("l3")
+
+            # if score == 200:
+            #     level = 1
+            #     clock_tick = 150
+            #     print("l1")
+            # if score == 500:
+            #     level = 2
+            #     clock_tick = 200
+            #     print("l2")
+            # if score == 1000:
+            #     level = 3
+            #     clock_tick = 240
+            #     print("l3")
 
         # Set the clock tick to be 60 times per second. 60 frames for second.
         # If we want faster game - increase the parameter.
@@ -137,6 +148,31 @@ def main():
         clock.tick(clock_tick)
     pygame.quit()
     quit()
+
+def click_home_button(screen):
+    if display_screen.game_over:
+        img = pygame.image.load(GAME_OVER)
+        img = pygame.transform.scale(img, (GAME_OVER_WIDTH, GAME_OVER_HEIGHT))
+        screen.blit(img, (GAME_OVER_X_POS, GAME_OVER_Y_POS))
+
+        img = pygame.image.load(HOME_BUTTON)
+        img = pygame.transform.scale(img, (HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT))
+        screen.blit(img, (HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS))
+
+        img = pygame.image.load(BACKGROUND)
+        img = pygame.transform.scale(img, (BACKGROUND_WIDTH, BACKGROUND_HEIGHT))
+        screen.blit(img, (BACKGROUND_X_POS, BACKGROUND_Y_POS))
+
+        score_font = pygame.font.SysFont(SCORE_FONT, SCORE_FONT_SIZE)
+        screen.blit(score_font.render("SCORE:" + str(score), True, WHITE), (200, 400))
+
+        home_button = Button(HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS, HOME_BUTTON_HEIGHT, HOME_BUTTON_WIDTH)
+        for event in pygame.event.get():
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mouse_click_pos = event.pos
+                if home_button.mouse_in_button(mouse_click_pos):
+                    print(0)
+                    main()
 
 
 main()
