@@ -4,6 +4,7 @@ from App import *
 from Player import *
 from Block import *
 from Button import *
+from helpers import *
 import time
 import threading
 
@@ -22,7 +23,10 @@ def main():
     img = pygame.transform.scale(img, (QUESTION_MARK_WIDTH,QUESTION_MARK_HEIGHT))
     screen.blit(img, (QUESTION_MARK_X_POS,QUESTION_MARK_Y_POS))
 
-    question_mark=Button(QUESTION_MARK_X_POS,QUESTION_MARK_Y_POS,QUESTION_MARK_HEIGHT,QUESTION_MARK_WIDTH)
+    question_mark=Button(QUESTION_MARK_X_POS,QUESTION_MARK_Y_POS,QUESTION_MARK_WIDTH,QUESTION_MARK_HEIGHT)
+    global home_button
+
+    home_button = Button(HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS, HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT)
 
 
 
@@ -52,9 +56,7 @@ def main():
     # levels = [5, 7, 9, 11]
     start_score = False
     while running:
-        click_home_button(screen)
-
-
+        game_over_screen(screen)
 
         # Grabs events such as key pressed, mouse pressed and so.
         # Going through all the events that happened in the last clock tick
@@ -64,32 +66,38 @@ def main():
                 running = False
             # checks if the user pressed the mouse button
             elif event.type == pygame.MOUSEBUTTONDOWN:
+
                 mouse_click_pos = event.pos
 
                 img = pygame.image.load(BACKGROUND)
                 img = pygame.transform.scale(img, (QUESTION_MARK_WIDTH,QUESTION_MARK_HEIGHT))
                 screen.blit(img, (QUESTION_MARK_X_POS,QUESTION_MARK_Y_POS))
-                if question_mark.mouse_in_button(mouse_click_pos):
-                    print(6)
-                print(1)
-                # show start score
-                score_font = pygame.font.SysFont(SCORE_FONT, SCORE_FONT_SIZE)
-                screen.blit(score_font.render("SCORE:", True, WHITE), (X_POS_SCORE, Y_POS_SCORE))
-                # build start blocks
-                block_right = Block(screen, RED, X_POS_RIGHT_BLOCK, Y_POS_BLOCK, BLOCK_START_HEIGHT)
-                block2_right = Block(screen, YELLOW, X_POS_RIGHT_BLOCK, Y_POS_BLOCK2, BLOCK_START_HEIGHT)
-                block3_right = Block(screen, RED, X_POS_RIGHT_BLOCK, Y_POS_BLOCK3, BLOCK_START_HEIGHT)
-                block_list_right = [block_right, block2_right, block3_right]
-                block_left = Block(screen, YELLOW, X_POS_LEFT_BLOCK, Y_POS_BLOCK, BLOCK_START_HEIGHT)
-                block2_left = Block(screen, RED, X_POS_LEFT_BLOCK, Y_POS_BLOCK2, BLOCK_START_HEIGHT)
-                block3_left = Block(screen, YELLOW, X_POS_LEFT_BLOCK, Y_POS_BLOCK3, BLOCK_START_HEIGHT)
-                block_list_left = [block_left, block2_left, block3_left]
-                # display start blocks
-                display_screen.game_screen(screen, block_list_right)
-                display_screen.game_screen(screen, block_list_left)
-                pygame.display.flip()
 
-                loaded += 1
+                if click_question_mark(question_mark, mouse_click_pos):
+                    print(99)
+                    how_to_play_screen(screen)
+
+                else:
+
+                    # show start score
+                    score_font = pygame.font.SysFont(SCORE_FONT, SCORE_FONT_SIZE)
+                    screen.blit(score_font.render("SCORE:", True, WHITE), (X_POS_SCORE, Y_POS_SCORE))
+                    # build start blocks
+                    block_right = Block(screen, RED, X_POS_RIGHT_BLOCK, Y_POS_BLOCK, BLOCK_START_HEIGHT)
+                    block2_right = Block(screen, YELLOW, X_POS_RIGHT_BLOCK, Y_POS_BLOCK2, BLOCK_START_HEIGHT)
+                    block3_right = Block(screen, RED, X_POS_RIGHT_BLOCK, Y_POS_BLOCK3, BLOCK_START_HEIGHT)
+                    block_list_right = [block_right, block2_right, block3_right]
+                    block_left = Block(screen, YELLOW, X_POS_LEFT_BLOCK, Y_POS_BLOCK, BLOCK_START_HEIGHT)
+                    block2_left = Block(screen, RED, X_POS_LEFT_BLOCK, Y_POS_BLOCK2, BLOCK_START_HEIGHT)
+                    block3_left = Block(screen, YELLOW, X_POS_LEFT_BLOCK, Y_POS_BLOCK3, BLOCK_START_HEIGHT)
+                    block_list_left = [block_left, block2_left, block3_left]
+                    # display start blocks
+                    display_screen.game_screen(screen, block_list_right)
+                    display_screen.game_screen(screen, block_list_left)
+                    pygame.display.flip()
+
+                    loaded += 1
+
 
             elif loaded == 1:
 
@@ -149,8 +157,12 @@ def main():
     pygame.quit()
     quit()
 
-def click_home_button(screen):
+def game_over_screen(screen):
     if display_screen.game_over:
+        img = pygame.image.load(BACKGROUND)
+        img = pygame.transform.scale(img, (BACKGROUND_WIDTH, BACKGROUND_HEIGHT))
+        screen.blit(img, (BACKGROUND_X_POS, BACKGROUND_Y_POS))
+
         img = pygame.image.load(GAME_OVER)
         img = pygame.transform.scale(img, (GAME_OVER_WIDTH, GAME_OVER_HEIGHT))
         screen.blit(img, (GAME_OVER_X_POS, GAME_OVER_Y_POS))
@@ -159,20 +171,38 @@ def click_home_button(screen):
         img = pygame.transform.scale(img, (HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT))
         screen.blit(img, (HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS))
 
-        img = pygame.image.load(BACKGROUND)
-        img = pygame.transform.scale(img, (BACKGROUND_WIDTH, BACKGROUND_HEIGHT))
-        screen.blit(img, (BACKGROUND_X_POS, BACKGROUND_Y_POS))
-
         score_font = pygame.font.SysFont(SCORE_FONT, SCORE_FONT_SIZE)
         screen.blit(score_font.render("SCORE:" + str(score), True, WHITE), (200, 400))
 
-        home_button = Button(HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS, HOME_BUTTON_HEIGHT, HOME_BUTTON_WIDTH)
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                mouse_click_pos = event.pos
-                if home_button.mouse_in_button(mouse_click_pos):
-                    print(0)
-                    main()
+        check()
+
+
+def how_to_play_screen(screen):
+
+    img = pygame.image.load(BACKGROUND)
+    img = pygame.transform.scale(img, (BACKGROUND_WIDTH, BACKGROUND_HEIGHT))
+    screen.blit(img, (BACKGROUND_X_POS, BACKGROUND_Y_POS))
+
+    img = pygame.image.load(HOME_BUTTON)
+    img = pygame.transform.scale(img, (HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT))
+    screen.blit(img, (HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS))
+
+    check()
+
+    # if home_button.mouse_in_button(mouse_click_pos):
+    #     print(00)
+
+    # if click_home_button(home_button):
+    #     print("h")
+    #     main()
+
+
+def check():
+    if click_home_button(home_button):
+        print(100)
+        main()
+
+
 
 
 main()
