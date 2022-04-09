@@ -16,3 +16,20 @@ def check_game_over(block_right, block_left, player_x_pos, player_y_pos, players
             return False
     else:
         return False
+
+
+def click_home_button(home_button):
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mouse_click_pos = event.pos
+            if home_button.mouse_in_button(mouse_click_pos):
+                return True
+
+
+
+def click_question_mark(question_mark, mouse_click_pos):
+    # for event in pygame.event.get():
+    #     if event.type == pygame.MOUSEBUTTONDOWN:
+    #         mouse_click_pos = event.pos
+            if question_mark.mouse_in_button(mouse_click_pos):
+                return True

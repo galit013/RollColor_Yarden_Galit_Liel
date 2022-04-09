@@ -40,7 +40,7 @@ class App:
             for i in range(len(block_list_left)):
                 if check_game_over(block_list_right[i], block_list_left[i], ball.get_x_pos(), ball.get_y_pos(), ball.get_color()):
                     print("over")
-                    self.ending_game_screen(score)
+                    # self.ending_game_screen(score)
                     self.game_over = True
 
                 pygame.draw.line(screen, BLACK, [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos()],
@@ -68,8 +68,8 @@ class App:
             # return game_over
 
 
-    def ending_game_screen(self, score):
-        pass
+    # def ending_game_screen(self, score):
+    #     pass
         # # Set up the game display, clock and headline
         # pygame.init()
         # # Create the screen and show it
