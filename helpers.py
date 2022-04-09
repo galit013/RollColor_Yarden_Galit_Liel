@@ -26,10 +26,6 @@ def click_home_button(home_button):
                 return True
 
 
-
 def click_question_mark(question_mark, mouse_click_pos):
-    # for event in pygame.event.get():
-    #     if event.type == pygame.MOUSEBUTTONDOWN:
-    #         mouse_click_pos = event.pos
-            if question_mark.mouse_in_button(mouse_click_pos):
-                return True
+    if question_mark.mouse_in_button(mouse_click_pos):
+        return True

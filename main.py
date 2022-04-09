@@ -23,20 +23,13 @@ def main():
     img = pygame.transform.scale(img, (QUESTION_MARK_WIDTH,QUESTION_MARK_HEIGHT))
     screen.blit(img, (QUESTION_MARK_X_POS,QUESTION_MARK_Y_POS))
 
-    question_mark=Button(QUESTION_MARK_X_POS,QUESTION_MARK_Y_POS,QUESTION_MARK_WIDTH,QUESTION_MARK_HEIGHT)
+    question_mark = Button(QUESTION_MARK_X_POS,QUESTION_MARK_Y_POS,QUESTION_MARK_WIDTH,QUESTION_MARK_HEIGHT)
     global home_button
-
     home_button = Button(HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS, HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT)
-
-
 
     ball = Player(screen)
     global display_screen
     display_screen = App(screen)
-    # ball_img = ball.get_player()
-    # screen.blit(ball_img, (ball.x_pos, ball.y_pos))
-
-    # block = Block(screen)
 
     clock = pygame.time.Clock()
 
@@ -72,13 +65,13 @@ def main():
                 img = pygame.image.load(BACKGROUND)
                 img = pygame.transform.scale(img, (QUESTION_MARK_WIDTH,QUESTION_MARK_HEIGHT))
                 screen.blit(img, (QUESTION_MARK_X_POS,QUESTION_MARK_Y_POS))
+                # if click_home_button(home_button):
+                #     print(100)
+                #     main()
 
                 if click_question_mark(question_mark, mouse_click_pos):
-                    print(99)
                     how_to_play_screen(screen)
-
                 else:
-
                     # show start score
                     score_font = pygame.font.SysFont(SCORE_FONT, SCORE_FONT_SIZE)
                     screen.blit(score_font.render("SCORE:", True, WHITE), (X_POS_SCORE, Y_POS_SCORE))
@@ -98,9 +91,7 @@ def main():
 
                     loaded += 1
 
-
             elif loaded == 1:
-
 
                 direction = ""
                 player_thread = threading.Thread(target=ball.move_player,
@@ -121,10 +112,8 @@ def main():
 
         if start_blocks == 1:
             blocks_thread = threading.Thread(target=display_screen.move_blocks,
-                                             args=(screen, block_list_right, block_list_left, 5, ball, score))
+                                             args=(screen, block_list_right, block_list_left, Y_POS_CHANGE, ball, score))
             blocks_thread.start()
-
-
 
         # Updating the score
         if start_score and not display_screen.game_over:
@@ -135,7 +124,7 @@ def main():
             pygame.display.flip()
             # print(score)
             if score > best_score:
-                 best_score = score
+                best_score = score
 
             # if score == 200:
             #     level = 1
@@ -157,6 +146,18 @@ def main():
     pygame.quit()
     quit()
 
+
+def how_to_play_screen(screen):
+
+    img = pygame.image.load(BACKGROUND)
+    img = pygame.transform.scale(img, (BACKGROUND_WIDTH, BACKGROUND_HEIGHT))
+    screen.blit(img, (BACKGROUND_X_POS, BACKGROUND_Y_POS))
+
+    img = pygame.image.load(HOME_BUTTON)
+    img = pygame.transform.scale(img, (HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT))
+    screen.blit(img, (HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS))
+
+
 def game_over_screen(screen):
     if display_screen.game_over:
         img = pygame.image.load(BACKGROUND)
@@ -174,35 +175,8 @@ def game_over_screen(screen):
         score_font = pygame.font.SysFont(SCORE_FONT, SCORE_FONT_SIZE)
         screen.blit(score_font.render("SCORE:" + str(score), True, WHITE), (200, 400))
 
-        check()
-
-
-def how_to_play_screen(screen):
-
-    img = pygame.image.load(BACKGROUND)
-    img = pygame.transform.scale(img, (BACKGROUND_WIDTH, BACKGROUND_HEIGHT))
-    screen.blit(img, (BACKGROUND_X_POS, BACKGROUND_Y_POS))
-
-    img = pygame.image.load(HOME_BUTTON)
-    img = pygame.transform.scale(img, (HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT))
-    screen.blit(img, (HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS))
-
-    check()
-
-    # if home_button.mouse_in_button(mouse_click_pos):
-    #     print(00)
-
-    # if click_home_button(home_button):
-    #     print("h")
-    #     main()
-
-
-def check():
-    if click_home_button(home_button):
-        print(100)
-        main()
-
-
+        if click_home_button(home_button):
+            main()
 
 
 main()

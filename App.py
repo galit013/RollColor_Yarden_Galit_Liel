@@ -4,6 +4,8 @@ from Player import *
 from Block import *
 import random
 from helpers import *
+from Button import *
+import time
 
 
 class App:
@@ -15,18 +17,10 @@ class App:
 
     def start_display(self):
         ball = Player(self.screen)
-        # block = Block(self.screen, 420, 340, RED)
         self.home_screen(self.screen, ball.get_color(), ball.get_x_pos(), ball.get_y_pos())
-        # self.game_screen(self.screen, block.get_color(), block.get_x_pos(), block.get_y_pos())
 
     def home_screen(self, screen, ball_color, x_start_ball, y_start_ball):
         pygame.draw.circle(screen, ball_color, (x_start_ball, y_start_ball), RADIUS)
-        # img = pygame.image.load(BALL_PATH)
-        # img = pygame.transform.scale(img, (BALL_WIDTH, BALL_HEIGHT))
-        # screen.blit(ball.get_player(), (X_POS_START,Y_POS_START))
-        # img = pygame.image.load(BLOCK_PATH)
-        # img = pygame.transform.scale(img, (BLOCK_WIDTH, BLOCK_HEIGHT))
-        # screen.blit(img, (0, 0))
 
     def game_screen(self, screen, block_list):
         for block in block_list:
@@ -35,12 +29,9 @@ class App:
 
     def move_blocks(self, screen, block_list_right, block_list_left, change_y_pos, ball, score):
         clock = pygame.time.Clock()
-        game_over = False
         while not self.game_over:
             for i in range(len(block_list_left)):
                 if check_game_over(block_list_right[i], block_list_left[i], ball.get_x_pos(), ball.get_y_pos(), ball.get_color()):
-                    print("over")
-                    # self.ending_game_screen(score)
                     self.game_over = True
 
                 pygame.draw.line(screen, BLACK, [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos()],
@@ -62,10 +53,15 @@ class App:
                 pygame.draw.line(screen, block_list_left[i].color, [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos()],
                                  [block_list_left[i].get_x_pos(), block_list_left[i].get_y_pos() + block_list_left[i].get_height()], BLOCK_WIDTH)
 
-
                 pygame.display.flip()
                 clock.tick(50)
-            # return game_over
+
+
+
+
+
+
+
 
 
     # def ending_game_screen(self, score):
