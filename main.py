@@ -1,15 +1,17 @@
-import pygame
-from constants import *
-from App import *
-from Player import *
-from Block import *
-from Button import *
+from classes.App import *
+from classes.Block import *
+from classes.Button import *
 from helpers import *
 import time
 import threading
 
 
 def main():
+    """
+        The function checks when the game will end.
+        In addition, the function checks the mouse click events and key events
+        :return: None
+    """
     # Set up the game display, clock and headline
     pygame.init()
     # Create the screen and show it
@@ -19,164 +21,143 @@ def main():
     # Change the title of the window
     pygame.display.set_caption('RollColor')
 
-    img = pygame.image.load(QUESTION_MARK)
-    img = pygame.transform.scale(img, (QUESTION_MARK_WIDTH,QUESTION_MARK_HEIGHT))
-    screen.blit(img, (QUESTION_MARK_X_POS,QUESTION_MARK_Y_POS))
-
-    question_mark = Button(QUESTION_MARK_X_POS,QUESTION_MARK_Y_POS,QUESTION_MARK_WIDTH,QUESTION_MARK_HEIGHT)
-    global home_button
-    home_button = Button(HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS, HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT)
-
-    ball = Player(screen)
+    # create player
+    ball = Player()
+    # create display screen
     global display_screen
-    display_screen = App(screen)
+    display_screen = App(screen, ball)
 
+    # clock
     clock = pygame.time.Clock()
 
     # Display all drawings we have defined
     pygame.display.flip()
 
-    global running
+    # define score font
+    global score_font
+    score_font = pygame.font.SysFont(SCORE_FONT, SCORE_FONT_SIZE)
+
+    # main loop variables
     running = True
-    loaded = 0
-    game_over = False
-    best_score = 0
+
     global score
     score = 0
-    start_blocks = 0
-    level = 0
-    clock_tick = 60
-    # levels = [5, 7, 9, 11]
     start_score = False
-    while running:
-        game_over_screen(screen)
 
+    loaded = 0
+    best_score = 0
+    start_blocks = 0
+
+    while running:
         # Grabs events such as key pressed, mouse pressed and so.
         # Going through all the events that happened in the last clock tick
         for event in pygame.event.get():
+            # checks if the user quited the game
             if event.type == pygame.QUIT:
-                print(best_score)
                 running = False
             # checks if the user pressed the mouse button
             elif event.type == pygame.MOUSEBUTTONDOWN:
+                # show start score
+                show_text(screen, score_font, "SCORE: 0", WHITE, X_POS_SCORE, Y_POS_SCORE)
 
-                mouse_click_pos = event.pos
+                # build start blocks
+                block_right = Block(RED, X_POS_RIGHT_BLOCK, Y_POS_BLOCK, BLOCK_START_HEIGHT)
+                block2_right = Block(YELLOW, X_POS_RIGHT_BLOCK, Y_POS_BLOCK2, BLOCK_START_HEIGHT)
+                block3_right = Block(RED, X_POS_RIGHT_BLOCK, Y_POS_BLOCK3, BLOCK_START_HEIGHT)
+                block_list_right = [block_right, block2_right, block3_right]
+                block_left = Block(YELLOW, X_POS_LEFT_BLOCK, Y_POS_BLOCK, BLOCK_START_HEIGHT)
+                block2_left = Block(RED, X_POS_LEFT_BLOCK, Y_POS_BLOCK2, BLOCK_START_HEIGHT)
+                block3_left = Block(YELLOW, X_POS_LEFT_BLOCK, Y_POS_BLOCK3, BLOCK_START_HEIGHT)
+                block_list_left = [block_left, block2_left, block3_left]
+                # display start blocks
+                display_screen.game_screen(screen, block_list_right)
+                display_screen.game_screen(screen, block_list_left)
+                # update screen
+                pygame.display.flip()
+                # change var - loaded to start player movements by key events
+                loaded += 1
 
-                img = pygame.image.load(BACKGROUND)
-                img = pygame.transform.scale(img, (QUESTION_MARK_WIDTH,QUESTION_MARK_HEIGHT))
-                screen.blit(img, (QUESTION_MARK_X_POS,QUESTION_MARK_Y_POS))
-                # if click_home_button(home_button):
-                #     print(100)
-                #     main()
-
-                if click_question_mark(question_mark, mouse_click_pos):
-                    how_to_play_screen(screen)
-                else:
-                    # show start score
-                    score_font = pygame.font.SysFont(SCORE_FONT, SCORE_FONT_SIZE)
-                    screen.blit(score_font.render("SCORE:", True, WHITE), (X_POS_SCORE, Y_POS_SCORE))
-                    # build start blocks
-                    block_right = Block(screen, RED, X_POS_RIGHT_BLOCK, Y_POS_BLOCK, BLOCK_START_HEIGHT)
-                    block2_right = Block(screen, YELLOW, X_POS_RIGHT_BLOCK, Y_POS_BLOCK2, BLOCK_START_HEIGHT)
-                    block3_right = Block(screen, RED, X_POS_RIGHT_BLOCK, Y_POS_BLOCK3, BLOCK_START_HEIGHT)
-                    block_list_right = [block_right, block2_right, block3_right]
-                    block_left = Block(screen, YELLOW, X_POS_LEFT_BLOCK, Y_POS_BLOCK, BLOCK_START_HEIGHT)
-                    block2_left = Block(screen, RED, X_POS_LEFT_BLOCK, Y_POS_BLOCK2, BLOCK_START_HEIGHT)
-                    block3_left = Block(screen, YELLOW, X_POS_LEFT_BLOCK, Y_POS_BLOCK3, BLOCK_START_HEIGHT)
-                    block_list_left = [block_left, block2_left, block3_left]
-                    # display start blocks
-                    display_screen.game_screen(screen, block_list_right)
-                    display_screen.game_screen(screen, block_list_left)
-                    pygame.display.flip()
-
-                    loaded += 1
-
+            # checks if the player can start moving
             elif loaded == 1:
-
+                # create move player thread
                 direction = ""
                 player_thread = threading.Thread(target=ball.move_player,
                                                  args=(screen, direction))
+                # start player thread
                 player_thread.start()
-                pygame.display.flip()
 
+                # checks key events
                 key = pygame.key.get_pressed()
+                # checks if left arrow key was pressed
                 if key[pygame.K_LEFT]:
+                    # start score and blocks movement
                     start_score = True
                     start_blocks += 1
+                    # move the ball to the left
                     ball.move_player(screen, "left")
 
+                # checks if right arrow key was pressed
                 if key[pygame.K_RIGHT]:
+                    # start score and blocks movement
                     start_score = True
                     start_blocks += 1
+                    # move the ball to the right
                     ball.move_player(screen, "right")
 
+        # checks if the blocks can start moving (only once the player pressed an arrow key)
         if start_blocks == 1:
+            # create move blocks thread
             blocks_thread = threading.Thread(target=display_screen.move_blocks,
-                                             args=(screen, block_list_right, block_list_left, Y_POS_CHANGE, ball, score))
+                                             args=(screen, block_list_right, block_list_left, Y_POS_CHANGE, ball))
+            # start blocks thread
             blocks_thread.start()
 
         # Updating the score
         if start_score and not display_screen.game_over:
             score += SCORE_CHANGE
+            # show current score on the screen
             pygame.draw.line(screen, BLACK, [X_START_SCORE_REC, Y_START_SCORE_REC], [X_START_SCORE_REC, Y_END_SCORE_REC], SCORE_REC_WIDTH)
-            screen.blit(score_font.render("SCORE:" + str(score), True, WHITE), (X_POS_SCORE, Y_POS_SCORE))
+            show_text(screen, score_font, "SCORE: " + str(score), WHITE, X_POS_SCORE, Y_POS_SCORE)
             time.sleep(0.2)
+            # update the screen
             pygame.display.flip()
-            # print(score)
+            # change best score
             if score > best_score:
                 best_score = score
 
-            # if score == 200:
-            #     level = 1
-            #     clock_tick = 150
-            #     print("l1")
-            # if score == 500:
-            #     level = 2
-            #     clock_tick = 200
-            #     print("l2")
-            # if score == 1000:
-            #     level = 3
-            #     clock_tick = 240
-            #     print("l3")
+        # checks if the game is over
+        if display_screen.game_over:
+            # loads game over screen
+            game_over_screen(screen)
 
         # Set the clock tick to be 60 times per second. 60 frames for second.
         # If we want faster game - increase the parameter.
         pygame.display.flip()
-        clock.tick(clock_tick)
+        clock.tick(60)
+
     pygame.quit()
-    quit()
-
-
-def how_to_play_screen(screen):
-
-    img = pygame.image.load(BACKGROUND)
-    img = pygame.transform.scale(img, (BACKGROUND_WIDTH, BACKGROUND_HEIGHT))
-    screen.blit(img, (BACKGROUND_X_POS, BACKGROUND_Y_POS))
-
-    img = pygame.image.load(HOME_BUTTON)
-    img = pygame.transform.scale(img, (HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT))
-    screen.blit(img, (HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS))
 
 
 def game_over_screen(screen):
-    if display_screen.game_over:
-        img = pygame.image.load(BACKGROUND)
-        img = pygame.transform.scale(img, (BACKGROUND_WIDTH, BACKGROUND_HEIGHT))
-        screen.blit(img, (BACKGROUND_X_POS, BACKGROUND_Y_POS))
+    """
+        The function loads the game over screen.
+        In addition, the function checks if the home button was clicked.
+        :return: None
+    """
 
-        img = pygame.image.load(GAME_OVER)
-        img = pygame.transform.scale(img, (GAME_OVER_WIDTH, GAME_OVER_HEIGHT))
-        screen.blit(img, (GAME_OVER_X_POS, GAME_OVER_Y_POS))
+    # show game over screen images
+    show_img(screen, BACKGROUND, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, BACKGROUND_X_POS, BACKGROUND_Y_POS)
+    show_img(screen, GAME_OVER, GAME_OVER_WIDTH, GAME_OVER_HEIGHT, GAME_OVER_X_POS, GAME_OVER_Y_POS)
+    show_img(screen, HOME_BUTTON, HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT, HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS)
+    # create home button
+    home_button = Button(HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS, HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT)
+    # show current game's score
+    show_text(screen, score_font, "SCORE: " + str(score), WHITE, GAME_OVER_X_POS_SCORE, GAME_OVER_Y_POS_SCORE)
 
-        img = pygame.image.load(HOME_BUTTON)
-        img = pygame.transform.scale(img, (HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT))
-        screen.blit(img, (HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS))
-
-        score_font = pygame.font.SysFont(SCORE_FONT, SCORE_FONT_SIZE)
-        screen.blit(score_font.render("SCORE:" + str(score), True, WHITE), (200, 400))
-
-        if click_home_button(home_button):
-            main()
+    # checks if the home button was clicked
+    if click_home_button(home_button):
+        # returns to the main screen
+        main()
 
 
 main()
