@@ -121,9 +121,11 @@ def main():
             pygame.draw.line(screen, BLACK, [X_START_SCORE_REC, Y_START_SCORE_REC], [X_START_SCORE_REC, Y_END_SCORE_REC], SCORE_REC_WIDTH)
             show_text(screen, score_font, "SCORE: " + str(score), WHITE, X_POS_SCORE, Y_POS_SCORE)
             time.sleep(0.2)
-            App(screen,ball,score)
+            # App(screen,ball,score)
             # update the screen
             pygame.display.flip()
+            if score > display_screen.get_high_score():
+                display_screen.set_high_score(score)
 
 
         # checks if the game is over
@@ -152,9 +154,9 @@ def game_over_screen(screen):
     show_img(screen, HOME_BUTTON, HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT, HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS)
     # create home button
     home_button = Button(HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS, HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT)
-    # show current game's score
+    # show current game's score and best score so far
     show_text(screen, score_font, "SCORE: " + str(score), WHITE, GAME_OVER_X_POS_SCORE, GAME_OVER_Y_POS_SCORE)
-
+    show_text(screen, score_font, "HIGH SCORE: " + str(display_screen.get_high_score()), WHITE, GAME_OVER_X_POS_SCORE, GAME_OVER_Y_POS_SCORE + 50)
 
     # checks if the home button was clicked
     if click_home_button(home_button):

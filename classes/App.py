@@ -17,25 +17,36 @@ class App:
         self.load_data()
 
     def load_data(self):
+        """
+            The function loads the high score from data base and shows it on the screen
+            :return: None
+        """
         # load high score
         self.dir = path.dirname(__file__)
         with open(path.join(self.dir, HS_FILE), 'r') as f:
             try:
-                self.highscore = int(f.read())
+                self.high_score = int(f.read())
             except:
-                self.highscore = 0
-
-        if self.score > self.highscore:
-            self.highscore = self.score
+                self.high_score = 0
+        # change high score if needed and show it on the screen
+        if self.score > self.high_score:
+            self.high_score = self.score
             self.draw_text("NEW HIGH SCORE!", 22, WHITE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 40)
             with open(path.join(self.dir, HS_FILE), 'w') as f:
                 f.write(str(self.score))
         else:
-            self.draw_text("High Score: " + str(self.highscore), 22, WHITE, WINDOW_WIDTH / 2, 30)
-
-        new_score = self.highscore
+            self.draw_text("High Score: " + str(self.high_score), 22, WHITE, WINDOW_WIDTH / 2, 30)
 
     def draw_text(self, text, size, color, x, y):
+        """
+            The function shows text from data base on the screen
+            <text> - string
+            <size> - int
+            <color> - tuple
+            <x> - int
+            <ty> - int
+            :return: None
+        """
         font = pygame.font.Font(self.font_name, size)
         text_surface = font.render(text, True, color)
         text_rect = text_surface.get_rect()
@@ -115,5 +126,9 @@ class App:
                 pygame.display.flip()
                 clock.tick(50)
 
-    def high_score(self):
-        return self.highscore
+    def get_high_score(self):
+        return self.high_score
+
+    def set_high_score(self, high_score):
+        self.high_score = high_score
+
