@@ -4,7 +4,7 @@ from classes.Button import *
 from helpers import *
 import time
 import threading
-
+from os import path
 
 def main():
     """
@@ -21,11 +21,15 @@ def main():
     # Change the title of the window
     pygame.display.set_caption('RollColor')
 
+    global score
+    score = 0
+    start_score = False
+
     # create player
     ball = Player()
     # create display screen
     global display_screen
-    display_screen = App(screen, ball)
+    display_screen = App(screen, ball,score)
 
     # clock
     clock = pygame.time.Clock()
@@ -40,9 +44,7 @@ def main():
     # main loop variables
     running = True
 
-    global score
-    score = 0
-    start_score = False
+
 
     loaded = 0
     best_score = 0
@@ -119,18 +121,17 @@ def main():
             pygame.draw.line(screen, BLACK, [X_START_SCORE_REC, Y_START_SCORE_REC], [X_START_SCORE_REC, Y_END_SCORE_REC], SCORE_REC_WIDTH)
             show_text(screen, score_font, "SCORE: " + str(score), WHITE, X_POS_SCORE, Y_POS_SCORE)
             time.sleep(0.2)
+            App(screen,ball,score)
             # update the screen
             pygame.display.flip()
-            # change best score
-            if score > best_score:
-                best_score = score
+
 
         # checks if the game is over
         if display_screen.game_over:
             # loads game over screen
             game_over_screen(screen)
 
-        # Set the clock tick to be 60 times per second. 60 frames for second.
+                # Set the clock tick to be 60 times per second. 60 frames for second.
         # If we want faster game - increase the parameter.
         pygame.display.flip()
         clock.tick(60)
@@ -153,6 +154,7 @@ def game_over_screen(screen):
     home_button = Button(HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS, HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT)
     # show current game's score
     show_text(screen, score_font, "SCORE: " + str(score), WHITE, GAME_OVER_X_POS_SCORE, GAME_OVER_Y_POS_SCORE)
+
 
     # checks if the home button was clicked
     if click_home_button(home_button):
