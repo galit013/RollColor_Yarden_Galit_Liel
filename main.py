@@ -32,7 +32,7 @@ def main():
     ball = Player()
     # create display screen
     global display_screen
-    display_screen = App(screen, ball, score)
+    display_screen = App(screen, score)
 
     display_screen.start_animation()
 
@@ -106,19 +106,11 @@ def main():
                     start_blocks += 1
                     # move the ball to the left
                     pygame.mixer.Sound.play(pop_sound)
-                    ball.move_player(screen, "left")
                     if change:
                         print("touched")
                         change_players_color(ball)
                         change = False
-
-                    # if display_screen.draw_change_color(ball):
-                    #     print("111")
-                    #     if ball.get_x_pos() == X_POS_LEFTEST:
-                    #         print("l")
-                    #         change_players_color(ball)
-
-
+                    ball.move_player(screen, "left")
 
                 # checks if right arrow key was pressed
                 if key[pygame.K_RIGHT]:
@@ -127,20 +119,15 @@ def main():
                     start_blocks += 1
                     # move the ball to the right
                     pygame.mixer.Sound.play(pop_sound)
-                    ball.move_player(screen, "right")
                     if change:
                         print("touched")
                         change_players_color(ball)
                         change = False
-                    # if display_screen.draw_change_color(ball):
-                    #     print("111")
-                    #     if ball.get_x_pos() == X_POS_RIGHTEST:
-                    #         print("r")
-                    #         change_players_color(ball)
+                    # if display_screen.
+                    ball.move_player(screen, "right")
 
                 random_drawing = random.randint(0, 2)
 
-                change_color_x = 0
                 if random_drawing == 0 and start_blocks >= 1:
                     change_color_ball = Player()
                     display_screen.draw_change_color(ball, change_color_ball)
@@ -165,7 +152,7 @@ def main():
                              [X_START_SCORE_REC, Y_END_SCORE_REC], SCORE_REC_WIDTH)
             show_text(screen, score_font, "SCORE: " + str(score), WHITE, X_POS_SCORE, Y_POS_SCORE)
             time.sleep(0.2)
-            App(screen, ball, score)
+            App(screen, score)
             # update the screen
             pygame.display.flip()
             if score > display_screen.get_high_score():
