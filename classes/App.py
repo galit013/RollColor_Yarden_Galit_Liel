@@ -62,6 +62,8 @@ class App:
         """
         # goes over all the images in animation folder (images)
         for image_number in range(AMOUNT_OF_LOADING_SCREENS):
+            animation_sound = pygame.mixer.Sound("classes/ani.mp3")
+            pygame.mixer.Sound.play(animation_sound)
             current_img_path = LOADING_SCREEN_IMAGE_PATH + str(image_number + 1) + LOADING_SCREEN_PATH_EXTENSION
             print(current_img_path)
             # show current image
