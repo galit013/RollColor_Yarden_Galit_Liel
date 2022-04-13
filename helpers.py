@@ -1,4 +1,5 @@
 from classes.Player import *
+import time
 
 
 def check_game_over(block_right, block_left, player_x_pos, player_y_pos, players_color):
@@ -83,3 +84,17 @@ def change_players_color(ball):
 
 
 
+def start_animation():
+    """
+        Displays the loading screen (animation).
+        :return: None
+    """
+    # goes over all the images in animation folder (images)
+    for image_number in range(AMOUNT_OF_LOADING_SCREENS):
+        current_img_path = LOADING_SCREEN_IMAGE_PATH + str(image_number + 1) + LOADING_SCREEN_PATH_EXTENSION
+        print(current_img_path)
+        # show current image
+        show_img(self.screen, current_img_path, WINDOW_WIDTH, 350, 0, 150)
+        time.sleep(0.2)
+        pygame.display.flip()
+    show_img(self.screen, BACKGROUND, WINDOW_WIDTH, 350, 0, 150)

@@ -4,7 +4,6 @@ from classes.Button import *
 from helpers import *
 import time
 import threading
-from os import path
 
 
 def main():
@@ -32,11 +31,12 @@ def main():
     global display_screen
     display_screen = App(screen, ball, score)
 
+    display_screen.start_animation()
+
+    display_screen.start_display(ball)
     show_img(screen, GARFIELD, GARFIELD_WIDTH, GARFIELD_HEIGHT, GARFIELD_X_POS, GARFIELD_Y_POS)
 
     # clock
-
-
     clock = pygame.time.Clock()
 
     # Display all drawings we have defined
@@ -52,11 +52,8 @@ def main():
     running = True
 
     loaded = 0
-    best_score = 0
     start_blocks = 0
     change = False
-
-
 
     while running:
         # Grabs events such as key pressed, mouse pressed and so.
@@ -147,19 +144,7 @@ def main():
                     print(change_color_ball.get_x_pos())
                     print(0)
                     print(ball.get_x_pos())
-                    change  = True
-                    # if change_color_ball.get_x_pos() == ball.get_x_pos():
-                    #     print("touched")
-
-
-                # if random_drawing == 0 and change_color_ball.get_x_pos() == ball.get_x_pos():
-                #     print("touched")
-
-
-                    # if ball.get_x_pos() == x:
-                    #     print("r")
-                    #     change_players_color(ball)
-
+                    change = True
 
         # checks if the blocks can start moving (only once the player pressed an arrow key)
         if start_blocks == 1:
@@ -212,7 +197,7 @@ def game_over_screen(screen):
     home_button = Button(HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS, HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT)
     # show current game's score and best score so far
     show_text(screen, score_font, "SCORE: " + str(score), WHITE, GAME_OVER_X_POS_SCORE, GAME_OVER_Y_POS_SCORE)
-    show_text(screen, score_font, "HIGH SCORE: " + str(display_screen.get_high_score()), WHITE, GAME_OVER_X_POS_SCORE, GAME_OVER_Y_POS_SCORE + 50)
+    show_text(screen, score_font, "BEST SCORE: " + str(display_screen.get_high_score()), WHITE, GAME_OVER_X_POS_SCORE, GAME_OVER_Y_POS_SCORE + 50)
 
     # checks if the home button was clicked
     if click_home_button(home_button):

@@ -12,12 +12,12 @@ import time
 class App:
     def __init__(self, screen, ball, score):
         self.screen = screen
-        # self.__start_animation()
-        self.start_display(ball)
+        # self.start_display(ball)
         self.game_over = False
         self.score = score
         self.font_name = pygame.font.match_font("ariel")
         self.load_data()
+
 
     def load_data(self):
         """
@@ -34,11 +34,11 @@ class App:
         # change high score if needed and show it on the screen
         if self.score > self.high_score:
             self.high_score = self.score
-            self.draw_text("NEW HIGH SCORE!", 22, WHITE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 40)
+            self.draw_text("NEW BEST SCORE!", 22, WHITE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 40)
             with open(path.join(self.dir, HS_FILE), 'w') as f:
                 f.write(str(self.score))
         else:
-            self.draw_text("High Score: " + str(self.high_score), 22, WHITE, WINDOW_WIDTH / 2, 30)
+            self.draw_text("Best Score: " + str(self.high_score), 22, WHITE, WINDOW_WIDTH / 2, 30)
 
     def draw_text(self, text, size, color, x, y):
         """
@@ -56,7 +56,7 @@ class App:
         text_rect.midtop = (x, y)
         self.screen.blit(text_surface, text_rect)
 
-    def __start_animation(self):
+    def start_animation(self):
         """
             Displays the loading screen (animation).
             :return: None
@@ -64,6 +64,7 @@ class App:
         # goes over all the images in animation folder (images)
         for image_number in range(AMOUNT_OF_LOADING_SCREENS):
             current_img_path = LOADING_SCREEN_IMAGE_PATH + str(image_number + 1) + LOADING_SCREEN_PATH_EXTENSION
+            print(current_img_path)
             # show current image
             show_img(self.screen, current_img_path, WINDOW_WIDTH, 350, 0, 150)
             time.sleep(0.2)

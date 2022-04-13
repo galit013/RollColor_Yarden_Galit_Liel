@@ -81,5 +81,5 @@ YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
 
 AMOUNT_OF_LOADING_SCREENS = 12
-LOADING_SCREEN_IMAGE_PATH = "./images/animation/rollColor_"
+LOADING_SCREEN_IMAGE_PATH = "images/animation/rollColor_"
 LOADING_SCREEN_PATH_EXTENSION = ".png"
