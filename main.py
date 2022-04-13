@@ -5,6 +5,9 @@ from helpers import *
 import time
 import threading
 
+pygame.init()
+game_over_sound = pygame.mixer.Sound("classes/Game Over (8-Bit Music).mp3")
+pop_sound = pygame.mixer.Sound("classes/POP - Sound Effect.mp3")
 
 def main():
     """
@@ -13,7 +16,7 @@ def main():
         :return: None
     """
     # Set up the game display, clock and headline
-    pygame.init()
+    # pygame.init()
     # Create the screen and show it
     screen_size = (WINDOW_WIDTH, WINDOW_HEIGHT)
     screen = pygame.display.set_mode(screen_size)
@@ -45,8 +48,8 @@ def main():
     # define score font
     global score_font
     score_font = pygame.font.SysFont(SCORE_FONT, SCORE_FONT_SIZE)
-    pop_sound = pygame.mixer.Sound("classes/POP - Sound Effect.mp3")
-    game_over_sound = pygame.mixer.Sound("classes/Game Over (8-Bit Music).mp3")
+
+
 
     # main loop variables
     running = True
@@ -172,7 +175,7 @@ def main():
         if display_screen.game_over:
             # loads game over screen
             game_over_screen(screen)
-            pygame.mixer.Sound.play(game_over_sound)
+            game_over_sound.play()
             # Set the clock tick to be 60 times per second. 60 frames for second.
         # If we want faster game - increase the parameter.
         pygame.display.flip()
@@ -202,7 +205,9 @@ def game_over_screen(screen):
     # checks if the home button was clicked
     if click_home_button(home_button):
         # returns to the main screen
+        game_over_sound.stop()
         main()
+
 
 
 main()
