@@ -121,7 +121,7 @@ def main():
             pygame.draw.line(screen, BLACK, [X_START_SCORE_REC, Y_START_SCORE_REC], [X_START_SCORE_REC, Y_END_SCORE_REC], SCORE_REC_WIDTH)
             show_text(screen, score_font, "SCORE: " + str(score), WHITE, X_POS_SCORE, Y_POS_SCORE)
             time.sleep(0.2)
-            # App(screen,ball,score)
+            App(screen, ball, score)
             # update the screen
             pygame.display.flip()
             if score > display_screen.get_high_score():
