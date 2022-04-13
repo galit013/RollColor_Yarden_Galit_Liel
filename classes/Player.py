@@ -20,6 +20,9 @@ class Player:
     def set_color(self, color):
         self.color = color
 
+    def set_x_pos(self, x_pos):
+        self.x_pos = x_pos
+
     def change_x_pos(self, change_x):
         self.x_pos += change_x
 

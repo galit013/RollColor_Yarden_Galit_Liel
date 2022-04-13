@@ -132,3 +132,20 @@ class App:
     def set_high_score(self, high_score):
         self.high_score = high_score
 
+    def draw_change_color(self,ball, change_color_ball):
+        x_to_draw = 0
+
+        ball_color = ball.get_color()
+        change_color = RED if ball_color == YELLOW else YELLOW
+        change_color_ball.set_color(change_color)
+
+        # ball_x = ball.get_x_pos()
+        # x_to_draw = X_POS_RIGHTEST if ball_x == X_POS_LEFTEST else X_POS_LEFTEST
+        change_color_ball.set_x_pos(X_POS_START)
+
+        pygame.draw.circle(self.screen, change_color_ball.get_color(), (change_color_ball.get_x_pos(), Y_POS_START), 12)
+        # return x_to_draw
+
+
+
+

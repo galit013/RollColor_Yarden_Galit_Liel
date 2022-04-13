@@ -73,3 +73,13 @@ def show_text(screen, font, text, color, text_x_pos, text_y_pos):
         :return: None
     """
     screen.blit(font.render(text, True, color), (text_x_pos, text_y_pos))
+
+def change_players_color(ball):
+    print("kk")
+    if ball.get_color() == RED:
+        ball.set_color(YELLOW)
+    else:
+        ball.set_color(RED)
+
+
+

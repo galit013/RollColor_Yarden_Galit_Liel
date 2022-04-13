@@ -49,6 +49,7 @@ def main():
     loaded = 0
     best_score = 0
     start_blocks = 0
+    change = False
 
     while running:
         # Grabs events such as key pressed, mouse pressed and so.
@@ -97,6 +98,16 @@ def main():
                     start_blocks += 1
                     # move the ball to the left
                     ball.move_player(screen, "left")
+                    if change:
+                        print("touched")
+                        change_players_color(ball)
+                        change = False
+
+                    # if display_screen.draw_change_color(ball):
+                    #     print("111")
+                    #     if ball.get_x_pos() == X_POS_LEFTEST:
+                    #         print("l")
+                    #         change_players_color(ball)
 
                 # checks if right arrow key was pressed
                 if key[pygame.K_RIGHT]:
@@ -105,6 +116,38 @@ def main():
                     start_blocks += 1
                     # move the ball to the right
                     ball.move_player(screen, "right")
+                    if change:
+                        print("touched")
+                        change_players_color(ball)
+                        change = False
+                    # if display_screen.draw_change_color(ball):
+                    #     print("111")
+                    #     if ball.get_x_pos() == X_POS_RIGHTEST:
+                    #         print("r")
+                    #         change_players_color(ball)
+
+                random_drawing = random.randint(0, 2)
+
+                change_color_x = 0
+                if random_drawing == 0 and start_blocks >= 1:
+                    change_color_ball = Player()
+                    display_screen.draw_change_color(ball, change_color_ball)
+                    print(change_color_ball.get_x_pos())
+                    print(0)
+                    print(ball.get_x_pos())
+                    change  = True
+                    # if change_color_ball.get_x_pos() == ball.get_x_pos():
+                    #     print("touched")
+
+
+                # if random_drawing == 0 and change_color_ball.get_x_pos() == ball.get_x_pos():
+                #     print("touched")
+
+
+                    # if ball.get_x_pos() == x:
+                    #     print("r")
+                    #     change_players_color(ball)
+
 
         # checks if the blocks can start moving (only once the player pressed an arrow key)
         if start_blocks == 1:
