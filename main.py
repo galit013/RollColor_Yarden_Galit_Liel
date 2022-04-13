@@ -6,6 +6,7 @@ import time
 import threading
 from os import path
 
+
 def main():
     """
         The function checks when the game will end.
@@ -29,9 +30,13 @@ def main():
     ball = Player()
     # create display screen
     global display_screen
-    display_screen = App(screen, ball,score)
+    display_screen = App(screen, ball, score)
+
+    show_img(screen, GARFIELD, GARFIELD_WIDTH, GARFIELD_HEIGHT, GARFIELD_X_POS, GARFIELD_Y_POS)
 
     # clock
+
+
     clock = pygame.time.Clock()
 
     # Display all drawings we have defined
@@ -43,8 +48,6 @@ def main():
 
     # main loop variables
     running = True
-
-
 
     loaded = 0
     best_score = 0
@@ -60,6 +63,7 @@ def main():
             # checks if the user pressed the mouse button
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 # show start score
+                show_img(screen, "images/blackBackground.png", GARFIELD_WIDTH, GARFIELD_HEIGHT, GARFIELD_X_POS, GARFIELD_Y_POS)
                 show_text(screen, score_font, "SCORE: 0", WHITE, X_POS_SCORE, Y_POS_SCORE)
 
                 # build start blocks
@@ -118,7 +122,8 @@ def main():
         if start_score and not display_screen.game_over:
             score += SCORE_CHANGE
             # show current score on the screen
-            pygame.draw.line(screen, BLACK, [X_START_SCORE_REC, Y_START_SCORE_REC], [X_START_SCORE_REC, Y_END_SCORE_REC], SCORE_REC_WIDTH)
+            pygame.draw.line(screen, BLACK, [X_START_SCORE_REC, Y_START_SCORE_REC],
+                             [X_START_SCORE_REC, Y_END_SCORE_REC], SCORE_REC_WIDTH)
             show_text(screen, score_font, "SCORE: " + str(score), WHITE, X_POS_SCORE, Y_POS_SCORE)
             time.sleep(0.2)
             App(screen, ball, score)
@@ -127,13 +132,12 @@ def main():
             if score > display_screen.get_high_score():
                 display_screen.set_high_score(score)
 
-
         # checks if the game is over
         if display_screen.game_over:
             # loads game over screen
             game_over_screen(screen)
 
-                # Set the clock tick to be 60 times per second. 60 frames for second.
+            # Set the clock tick to be 60 times per second. 60 frames for second.
         # If we want faster game - increase the parameter.
         pygame.display.flip()
         clock.tick(60)
