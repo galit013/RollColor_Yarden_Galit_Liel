@@ -7,6 +7,9 @@ RADIUS = 20
 X_POS_START = 240
 Y_POS_START = 550
 
+# change color ball parameters
+CHANGE_COLOR_BALL_RADIUS = 12
+
 # players movement parameters
 X_POS_LEFTEST = 110
 X_POS_RIGHTEST = 390
@@ -57,7 +60,8 @@ GARFIELD = "images/howToPlay.png"
 GARFIELD_WIDTH = 400
 GARFIELD_HEIGHT = 400
 GARFIELD_X_POS = 100
-GARFIELD_Y_POS =  50
+GARFIELD_Y_POS = 50
+
 # score parameters
 X_POS_SCORE = 120
 Y_POS_SCORE = 50
@@ -73,13 +77,34 @@ GAME_OVER_X_POS_SCORE = 200
 GAME_OVER_Y_POS_SCORE = 400
 GAME_OVER_X_POS_HIGH_SCORE = 200
 GAME_OVER_Y_POS_HIGH_SCORE = 430
+
+# text file
 HS_FILE = "highscore.txt"
+
 # colors
 BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
 
+# animation parameters
 AMOUNT_OF_LOADING_SCREENS = 12
 LOADING_SCREEN_IMAGE_PATH = "images/animation/rollColor_"
 LOADING_SCREEN_PATH_EXTENSION = ".png"
+IMG_HEIGHT = 350
+IMG_X = 0
+IMG_Y = 150
+
+# sounds
+GAME_OVER_SOUND = "sounds/Game Over (8-Bit Music).mp3"
+POP_SOUND = "sounds/POP - Sound Effect.mp3"
+ANIMATION_SOUND = "sounds/ani.mp3"
+
+# best score parameters
+BEST_SCORE_SIZE = 22
+BEST_SCORE_WIDTH = 250
+BEST_SCORE_HEIGHT = 365
+NEW_BEST_SCORE_HEIGHT = 30
+
+GAME_OVER_BEST_SCORE_X = 170
+GAME_OVER_BEST_SCORE_Y = 450

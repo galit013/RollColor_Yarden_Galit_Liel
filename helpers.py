@@ -1,5 +1,4 @@
 from classes.Player import *
-import time
 
 
 def check_game_over(block_right, block_left, player_x_pos, player_y_pos, players_color):
@@ -75,25 +74,16 @@ def show_text(screen, font, text, color, text_x_pos, text_y_pos):
     """
     screen.blit(font.render(text, True, color), (text_x_pos, text_y_pos))
 
+
 def change_players_color(ball):
-    print("kk")
+    """
+        The function changes the color of the player to the opposite one
+        <ball> - Player (class)
+        :return: None
+    """
     if ball.get_color() == RED:
         ball.set_color(YELLOW)
     else:
         ball.set_color(RED)
 
 
-# def start_animation(screen):
-#     """
-#         Displays the loading screen (animation).
-#         :return: None
-#     """
-#     # goes over all the images in animation folder (images)
-#     for image_number in range(AMOUNT_OF_LOADING_SCREENS):
-#         current_img_path = LOADING_SCREEN_IMAGE_PATH + str(image_number + 1) + LOADING_SCREEN_PATH_EXTENSION
-#         print(current_img_path)
-#         # show current image
-#         show_img(screen, current_img_path, WINDOW_WIDTH, 350, 0, 150)
-#         time.sleep(0.2)
-#         pygame.display.flip()
-#     show_img(screen, BACKGROUND, WINDOW_WIDTH, 350, 0, 150)

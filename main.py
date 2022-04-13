@@ -5,9 +5,12 @@ from helpers import *
 import time
 import threading
 
+# Set up the game display, clock and headline
 pygame.init()
-game_over_sound = pygame.mixer.Sound("classes/Game Over (8-Bit Music).mp3")
-pop_sound = pygame.mixer.Sound("classes/POP - Sound Effect.mp3")
+# initialize the sounds
+game_over_sound = pygame.mixer.Sound(GAME_OVER_SOUND)
+pop_sound = pygame.mixer.Sound(POP_SOUND)
+
 
 def main():
     """
@@ -15,8 +18,7 @@ def main():
         In addition, the function checks the mouse click events and key events
         :return: None
     """
-    # Set up the game display, clock and headline
-    # pygame.init()
+
     # Create the screen and show it
     screen_size = (WINDOW_WIDTH, WINDOW_HEIGHT)
     screen = pygame.display.set_mode(screen_size)
@@ -33,9 +35,10 @@ def main():
     # create display screen
     global display_screen
     display_screen = App(screen, score)
-
+    # show animation
     display_screen.start_animation()
 
+    # show main screen
     display_screen.start_display(ball)
     show_img(screen, GARFIELD, GARFIELD_WIDTH, GARFIELD_HEIGHT, GARFIELD_X_POS, GARFIELD_Y_POS)
 
@@ -49,11 +52,8 @@ def main():
     global score_font
     score_font = pygame.font.SysFont(SCORE_FONT, SCORE_FONT_SIZE)
 
-
-
     # main loop variables
     running = True
-
     loaded = 0
     start_blocks = 0
     change = False
@@ -68,7 +68,7 @@ def main():
             # checks if the user pressed the mouse button
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 # show start score
-                show_img(screen, "images/blackBackground.png", GARFIELD_WIDTH, GARFIELD_HEIGHT, GARFIELD_X_POS, GARFIELD_Y_POS)
+                show_img(screen, BACKGROUND, GARFIELD_WIDTH, GARFIELD_HEIGHT, GARFIELD_X_POS, GARFIELD_Y_POS)
                 show_text(screen, score_font, "SCORE: 0", WHITE, X_POS_SCORE, Y_POS_SCORE)
 
                 # build start blocks
@@ -104,12 +104,13 @@ def main():
                     # start score and blocks movement
                     start_score = True
                     start_blocks += 1
-                    # move the ball to the left
+                    # pop sound
                     pygame.mixer.Sound.play(pop_sound)
+                    # if needed change the player's color
                     if change:
-                        print("touched")
                         change_players_color(ball)
                         change = False
+                    # move the ball to the left
                     ball.move_player(screen, "left")
 
                 # checks if right arrow key was pressed
@@ -117,23 +118,23 @@ def main():
                     # start score and blocks movement
                     start_score = True
                     start_blocks += 1
-                    # move the ball to the right
+                    # pop sound
                     pygame.mixer.Sound.play(pop_sound)
+                    # if needed change the player's color
                     if change:
-                        print("touched")
                         change_players_color(ball)
                         change = False
-                    # if display_screen.
+                    # move the ball to the right
                     ball.move_player(screen, "right")
 
+                # draw random balls on the screen to change the color of the player
                 random_drawing = random.randint(0, 2)
 
                 if random_drawing == 0 and start_blocks >= 1:
+                    # create a change color ball
                     change_color_ball = Player()
+                    # drawing the ball
                     display_screen.draw_change_color(ball, change_color_ball)
-                    print(change_color_ball.get_x_pos())
-                    print(0)
-                    print(ball.get_x_pos())
                     change = True
 
         # checks if the blocks can start moving (only once the player pressed an arrow key)
@@ -155,6 +156,7 @@ def main():
             App(screen, score)
             # update the screen
             pygame.display.flip()
+            # update best score
             if score > display_screen.get_high_score():
                 display_screen.set_high_score(score)
 
@@ -162,8 +164,9 @@ def main():
         if display_screen.game_over:
             # loads game over screen
             game_over_screen(screen)
+            # game over sound
             game_over_sound.play()
-            # Set the clock tick to be 60 times per second. 60 frames for second.
+        # Set the clock tick to be 60 times per second. 60 frames for second.
         # If we want faster game - increase the parameter.
         pygame.display.flip()
         clock.tick(60)
@@ -187,14 +190,14 @@ def game_over_screen(screen):
     home_button = Button(HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS, HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT)
     # show current game's score and best score so far
     show_text(screen, score_font, "SCORE: " + str(score), WHITE, GAME_OVER_X_POS_SCORE, GAME_OVER_Y_POS_SCORE)
-    show_text(screen, score_font, "BEST SCORE: " + str(display_screen.get_high_score()), WHITE, GAME_OVER_X_POS_SCORE, GAME_OVER_Y_POS_SCORE + 50)
+    show_text(screen, score_font, "BEST SCORE: " + str(display_screen.get_high_score()), WHITE, GAME_OVER_BEST_SCORE_X, GAME_OVER_BEST_SCORE_Y)
 
     # checks if the home button was clicked
     if click_home_button(home_button):
-        # returns to the main screen
+        # stop game over sound
         game_over_sound.stop()
+        # returns to the main screen
         main()
-
 
 
 main()

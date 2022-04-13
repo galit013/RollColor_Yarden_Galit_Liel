@@ -1,12 +1,10 @@
 import pygame
 from constants import *
-from classes.Player import *
 from classes.Block import *
 import random
 from helpers import *
 from os import path
 import time
-
 
 
 class App:
@@ -16,7 +14,6 @@ class App:
         self.score = score
         self.font_name = pygame.font.match_font("ariel")
         self.load_data()
-
 
     def load_data(self):
         """
@@ -33,11 +30,11 @@ class App:
         # change high score if needed and show it on the screen
         if self.score > self.high_score:
             self.high_score = self.score
-            self.draw_text("NEW BEST SCORE!", 22, WHITE, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2 + 40)
+            self.draw_text("NEW BEST SCORE!", BEST_SCORE_SIZE, WHITE, BEST_SCORE_WIDTH, BEST_SCORE_HEIGHT)
             with open(path.join(self.dir, HS_FILE), 'w') as f:
                 f.write(str(self.score))
         else:
-            self.draw_text("Best Score: " + str(self.high_score), 22, WHITE, WINDOW_WIDTH / 2, 30)
+            self.draw_text("Best Score: " + str(self.high_score), BEST_SCORE_SIZE, WHITE, BEST_SCORE_WIDTH, NEW_BEST_SCORE_HEIGHT)
 
     def draw_text(self, text, size, color, x, y):
         """
@@ -62,15 +59,17 @@ class App:
         """
         # goes over all the images in animation folder (images)
         for image_number in range(AMOUNT_OF_LOADING_SCREENS):
-            animation_sound = pygame.mixer.Sound("classes/ani.mp3")
+            # animation sound
+            animation_sound = pygame.mixer.Sound(ANIMATION_SOUND)
             pygame.mixer.Sound.play(animation_sound)
+            # load img path
             current_img_path = LOADING_SCREEN_IMAGE_PATH + str(image_number + 1) + LOADING_SCREEN_PATH_EXTENSION
-            print(current_img_path)
             # show current image
-            show_img(self.screen, current_img_path, WINDOW_WIDTH, 350, 0, 150)
+            show_img(self.screen, current_img_path, WINDOW_WIDTH, IMG_HEIGHT, IMG_X, IMG_Y)
             time.sleep(0.2)
             pygame.display.flip()
-        show_img(self.screen, BACKGROUND, WINDOW_WIDTH, 350, 0, 150)
+        # hide images
+        show_img(self.screen, BACKGROUND, WINDOW_WIDTH, IMG_HEIGHT, IMG_X, IMG_Y)
 
     def start_display(self, ball):
         """
@@ -152,18 +151,25 @@ class App:
         self.high_score = high_score
 
     def draw_change_color(self, ball, change_color_ball):
-        x_to_draw = 0
-
+        """
+                 The function is moving the blocks on the screen
+                 <block_list_right> - contains blocks - Block (class)
+                 <block_list_left> - contains blocks - Block (class)
+                 <y_pos_change> - int
+                 <ball> - Player (class)
+                 :return: None
+        """
+        # set color of the change_color_ball
         ball_color = ball.get_color()
         change_color = RED if ball_color == YELLOW else YELLOW
         change_color_ball.set_color(change_color)
-
+        # set change_color_ball position
         ball_x = ball.get_x_pos()
         x_to_draw = X_POS_RIGHTEST if ball_x == X_POS_LEFTEST else X_POS_LEFTEST
         change_color_ball.set_x_pos(x_to_draw)
-
+        # draw change_color_ball on the screen
         pygame.draw.circle(self.screen, change_color_ball.get_color(), (change_color_ball.get_x_pos(), Y_POS_START), 12)
-        # return x_to_draw
+
 
 
 
