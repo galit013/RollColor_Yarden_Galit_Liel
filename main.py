@@ -45,6 +45,8 @@ def main():
     # define score font
     global score_font
     score_font = pygame.font.SysFont(SCORE_FONT, SCORE_FONT_SIZE)
+    pop_sound = pygame.mixer.Sound("classes/POP - Sound Effect.mp3")
+    game_over_sound = pygame.mixer.Sound("classes/Game Over (8-Bit Music).mp3")
 
     # main loop variables
     running = True
@@ -100,7 +102,10 @@ def main():
                     start_score = True
                     start_blocks += 1
                     # move the ball to the left
+                    pygame.mixer.Sound.play(pop_sound)
                     ball.move_player(screen, "left")
+
+
 
                 # checks if right arrow key was pressed
                 if key[pygame.K_RIGHT]:
@@ -108,6 +113,7 @@ def main():
                     start_score = True
                     start_blocks += 1
                     # move the ball to the right
+                    pygame.mixer.Sound.play(pop_sound)
                     ball.move_player(screen, "right")
 
         # checks if the blocks can start moving (only once the player pressed an arrow key)
@@ -136,7 +142,7 @@ def main():
         if display_screen.game_over:
             # loads game over screen
             game_over_screen(screen)
-
+            pygame.mixer.Sound.play(game_over_sound)
             # Set the clock tick to be 60 times per second. 60 frames for second.
         # If we want faster game - increase the parameter.
         pygame.display.flip()
@@ -153,6 +159,7 @@ def game_over_screen(screen):
     """
 
     # show game over screen images
+
     show_img(screen, BACKGROUND, BACKGROUND_WIDTH, BACKGROUND_HEIGHT, BACKGROUND_X_POS, BACKGROUND_Y_POS)
     show_img(screen, GAME_OVER, GAME_OVER_WIDTH, GAME_OVER_HEIGHT, GAME_OVER_X_POS, GAME_OVER_Y_POS)
     show_img(screen, HOME_BUTTON, HOME_BUTTON_WIDTH, HOME_BUTTON_HEIGHT, HOME_BUTTON_X_POS, HOME_BUTTON_Y_POS)
