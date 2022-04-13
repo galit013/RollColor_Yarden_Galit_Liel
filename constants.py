@@ -53,7 +53,7 @@ BACKGROUND_X_POS = 0
 BACKGROUND_Y_POS = 0
 
 #garfeild img
-GARFIELD = "images/מצגת1.png"
+GARFIELD = "images/howToPlay.png"
 GARFIELD_WIDTH = 400
 GARFIELD_HEIGHT = 400
 GARFIELD_X_POS = 100
@@ -79,3 +79,7 @@ BLACK = (0, 0, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
+
+AMOUNT_OF_LOADING_SCREENS = 12
+LOADING_SCREEN_IMAGE_PATH = "./images/animation/rollColor_"
+LOADING_SCREEN_PATH_EXTENSION = ".png"
