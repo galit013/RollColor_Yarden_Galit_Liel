@@ -54,6 +54,8 @@ def main():
     start_blocks = 0
     change = False
 
+
+
     while running:
         # Grabs events such as key pressed, mouse pressed and so.
         # Going through all the events that happened in the last clock tick
