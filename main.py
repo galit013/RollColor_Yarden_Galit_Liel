@@ -128,7 +128,7 @@ def main():
                     ball.move_player(screen, "right")
 
                 # draw random balls on the screen to change the color of the player
-                random_drawing = random.randint(0, 2)
+                random_drawing = random.randint(0, 3)
 
                 if random_drawing == 0 and start_blocks >= 1:
                     # create a change color ball
